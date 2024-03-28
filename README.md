@@ -27,20 +27,21 @@ Este repositorio será usado por los integrantes del grupo a lo largo del cursad
 ISW_2024_4K4_G4
 ├── Material Estudio
 │   ├── Bibliografía
-│       ├── ISW_BB_<NombreDelDocumento>.pdf
+│   │   ├── ISW_BB_<NombreDelDocumento>.pdf
 │   ├── Notas de Clase
-|       ├── ISW_NT_<NumeroSemana>_<Nombre_Apellido>.pdf
-|   ├── Presentaciones
-|       ├── ISW_PPT_U<NumeroDeUnidad>_<Tema>.pdf
-|   ├── Resumenes
-|      ├── ISW_RES_U<NumeroDeUnidad>.pdf
+│   │   ├── ISW_NT_<NumeroSemana>_<Nombre_Apellido>.pdf
+│   ├── Presentaciones
+│   │   ├── ISW_PPT_U<NumeroDeUnidad>_<Tema>.pdf
+│   ├── Resumenes
+│   │   ├── ISW_RES_U<NumeroDeUnidad>.pdf
 ├── Trabajos
-|   ├── Trabajos Conceptuales
-|       ├── ISW_TC_<NumeroDeTc>.pdf
-|   ├──Trabajos Practicos
-|      ├── ISW_TP_<NumeroDeTp>.pdf
+│   ├── Trabajos Conceptuales
+│   │   ├── ISW_TC_<NumeroDeTc>.pdf
+│   ├── Trabajos Practicos
+│   │   ├── ISW_TP_<NumeroDeTp>.pdf
 ├── Templates
-|   ├── ISW_Template_<NombreDelTema>.[docx|xslx]
+│   ├── ISW_Template_<NombreDelTema>.[docx|xlsx]
+
 
 ```
 
