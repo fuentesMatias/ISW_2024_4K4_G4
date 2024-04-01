@@ -53,12 +53,12 @@ ISW_2024_4K4_G4
 | ------------------- | ---------------------------------------- | ------------- |
 | Descripción SCM     | ISW_DescripciónSCM.pdf                  | ISW_2024_4K4_G4\    |
 | Programa de Asignatura | ISW_ProgramaDeAsignatura.pdf          | ISW_2024_4K4_G4\Programa\    |
-| Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.pdf                | ISW_2024_4K4_G4\Trabajos\Trabajos Practicos\    |
+| Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.pdf                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
 | Trabajos Conceptuales | ISW_TC_<Número de TC>_<Titulo>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
 | Templates           | ISW_Template_<Nombre del tema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
 | Presentaciones      | ISW_PPT_U<Número de unidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
-| Resúmenes           | ISW_RES_U<Número de unidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resumenes\    |
-| Bibliografía        | ISW_BB_<Nombre del documento>.pdf       | ISW_2024_4K4_G4\Material Estudio\Bibliografia\    |
+| Resúmenes           | ISW_RES_U<Número de unidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resúmenes\    |
+| Bibliografía        | ISW_BB_<Nombre del documento>.pdf       | ISW_2024_4K4_G4\Material Estudio\Bibliografía\    |
 | Notas de Clase      | ISW_NT_<Número Semana>_<Nombre_Apellido>.pdf | ISW_2024_4K4_G4\Material Estudio\Notas de Clase\ |
 
 
