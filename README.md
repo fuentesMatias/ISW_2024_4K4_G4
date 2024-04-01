@@ -11,7 +11,7 @@ Este repositorio será usado por los integrantes del grupo a lo largo del cursad
 - Décimo, Sofía Mailén - 89401
 - [Fuentes, Matías - 90463](https://github.com/fuentesMatias)
 - [Gregorat, Franco Lautaro - 89882](https://github.com/lautarogregorat) 
-- Ibarguren, Carlos - 93911
+- [Ibarguren, Carlos - 93911](https://github.com/carlosibarguren)
 - Márquez, Juan Francisco - 89074
 - [Mizzau Anadón, Federico Agustín - 89542 ](https://github.com/FedericoMizzau) 
 - [Silvestre, Exequiel - 81811](https://github.com/Exesilvestre) 
@@ -29,16 +29,16 @@ ISW_2024_4K4_G4
 │   ├── Bibliografía
 │   │   ├── ISW_BB_<NombreDelDocumento>.pdf
 │   ├── Notas de Clase
-│   │   ├── ISW_NT_<NumeroSemana>_<Nombre_Apellido>.pdf
+│   │   ├── ISW_NT_<NúmeroSemana>_<Nombre_Apellido>.pdf
 │   ├── Presentaciones
-│   │   ├── ISW_PPT_U<NumeroDeUnidad>_<Tema>.pdf
+│   │   ├── ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf
 │   ├── Resumenes
-│   │   ├── ISW_RES_U<NumeroDeUnidad>.pdf
+│   │   ├── ISW_RES_U<NúmeroDeUnidad>.pdf
 ├── Trabajos
 │   ├── Trabajos Conceptuales
-│   │   ├── ISW_TC_<NumeroDeTc>.pdf
-│   ├── Trabajos Practicos
-│   │   ├── ISW_TP_<NumeroDeTp>.pdf
+│   │   ├── ISW_TC_<NúmeroDeTc>.pdf
+│   ├── Trabajos Prácticos
+│   │   ├── ISW_TP_<NúmeroDeTp>.pdf
 ├── Templates
 │   ├── ISW_Template_<NombreDelTema>.[docx|xlsx]
 
@@ -56,10 +56,10 @@ ISW_2024_4K4_G4
 | Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.pdf                | ISW_2024_4K4_G4\Trabajos\Trabajos Practicos\    |
 | Trabajos Conceptuales | ISW_TC_<Número de TC>_<Titulo>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
 | Templates           | ISW_Template_<Nombre del tema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
-| Presentaciones      | ISW_PPT_U<número de unidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
-| Resúmenes           | ISW_RES_U<número de unidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resumenes\    |
+| Presentaciones      | ISW_PPT_U<Número de unidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
+| Resúmenes           | ISW_RES_U<Número de unidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resumenes\    |
 | Bibliografía        | ISW_BB_<Nombre del documento>.pdf       | ISW_2024_4K4_G4\Material Estudio\Bibliografia\    |
-| Notas de Clase      | ISW_NT_<Numero Semana>_<Nombre_Apellido>.pdf | ISW_2024_4K4_G4\Material Estudio\Notas de Clase\ |
+| Notas de Clase      | ISW_NT_<Número Semana>_<Nombre_Apellido>.pdf | ISW_2024_4K4_G4\Material Estudio\Notas de Clase\ |
 
 
 
