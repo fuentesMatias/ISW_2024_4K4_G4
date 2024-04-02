@@ -8,7 +8,7 @@ Este repositorio será usado por los integrantes del grupo a lo largo del cursad
 
 ## Integrantes del grupo
 
-- Décimo, Sofía Mailén - 89401
+- [Décimo, Sofía Mailén - 89401](https://github.com/SofiaDecimo)
 - [Fuentes, Matías - 90463](https://github.com/fuentesMatias)
 - [Gregorat, Franco Lautaro - 89882](https://github.com/lautarogregorat) 
 - [Ibarguren, Carlos - 93911](https://github.com/carlosibarguren)
@@ -34,13 +34,15 @@ ISW_2024_4K4_G4
 │   │   ├── ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf
 │   ├── Resumenes
 │   │   ├── ISW_RES_U<NúmeroDeUnidad>.pdf
+├── Programa
+│   ├── ISW_ProgramaAsignatura_2024.pdf  
+├── Templates
+│   ├── ISW_Template_<NombreDelTema>.[docx|xlsx]
 ├── Trabajos
 │   ├── Trabajos Conceptuales
 │   │   ├── ISW_TC_<NúmeroDeTc>.pdf
 │   ├── Trabajos Prácticos
 │   │   ├── ISW_TP_<NúmeroDeTp>.pdf
-├── Templates
-│   ├── ISW_Template_<NombreDelTema>.[docx|xlsx]
 
 
 ```
@@ -51,8 +53,7 @@ ISW_2024_4K4_G4
 
 | ítem                | Regla de Nombrado                       | Ubicación |
 | ------------------- | ---------------------------------------- | ------------- |
-| Descripción SCM     | ISW_DescripciónSCM.pdf                  | ISW_2024_4K4_G4\    |
-| Programa de Asignatura | ISW_ProgramaDeAsignatura.pdf          | ISW_2024_4K4_G4\Programa\    |
+| Programa de Asignatura | ISW_ProgramaAsignatura_2024.pdf          | ISW_2024_4K4_G4\Programa\    |
 | Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.pdf                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
 | Trabajos Conceptuales | ISW_TC_<Número de TC>_<Titulo>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
 | Templates           | ISW_Template_<Nombre del tema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
@@ -83,3 +84,12 @@ Dentro de nuestro repositorio el criterio para establecer una Línea Base sin co
 | **BB** | Bibliografía | 
 | **NT** | Notas de Clase | 
 | **SCM** | Gestión de Configuración del Software | 
+| **U** | Unidad | 
+| **<Titulo>** | Título del Trabajo Conceptual o Práctico | 
+| **<Nombre del tema>** | Nombre asociado al tema al que corresponde el template. | 
+| **<Número de unidad>** | Número de la Unidad correspondiente al Tema del documento o archivo, siguiendo los número establecidos en el programa de la asignatura. |
+| **<Tema>** | Título del tema al que corresponde una presentación o diapositiva. | 
+| **<Nombre del documento>** | Título del archivo correspondiente a un libro, paper, o documento de Bibliografía. | 
+| **<Número Semana>** | Número de la semana a la que corresponde un Ítem de Configuración de notas de clase, según el cronograma de la materia en el año 2024. |
+| **<Nombre_Apellido>** | Nombre y apellido del autor de un ítem de Configuración de notas de clase. |
+
