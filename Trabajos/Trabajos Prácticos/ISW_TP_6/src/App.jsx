@@ -1,6 +1,6 @@
 
 import './App.css';
-import {Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Inicio from './components/Inicio';
 import FormularioPedidoEnvio from './components/FormularioPedidoEnvio';
 // eslint-disable-next-line require-jsdoc
