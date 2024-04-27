@@ -1,59 +1,25 @@
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import { Box, IconButton, Toolbar } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import AppBar from '@mui/material/AppBar'
+import { Box } from '@mui/material'
+import imagen from '../assets/tango-app-logo.png'
 
 const Header = () => {
   return (
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: "green",
-        height: "50px",
-        minWidth: "100%",
-        display: "flex",
-        justifyContent: "center",
-        marginBottom: "10%",
+        backgroundColor: 'rgb(106,188,249)',
+        background: 'linear-gradient(336deg, rgba(106,188,249,1) 5%, rgba(117,191,249,1) 52%, rgba(135,230,255,1) 94%)',
+        height: '50px',
+        minWidth: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        marginBottom: '10%'
       }}
     >
-      <Toolbar>
-        <Box minWidth={"100%"} sx={{ marginLeft: "0%" }}>
-          <IconButton
-            size="small"
-            sx={{
-              backgroundColor: "transparent",
-              transition: "transform 0.2s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.2)",
-                transition: "transform 0.2s ease-in-out",
-              },
-            }}
-            href="https://www.linkedin.com/in/franco-lautaro-gregorat-176154251/"
-          >
-            <LinkedInIcon sx={{ color: "white" }} />
-          </IconButton>
-          <IconButton
-            size="small"
-            sx={{
-              backgroundColor: "transparent",
-              transition: "transform 0.2s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.2)",
-                transition: "transform 0.2s ease-in-out",
-              },
-            }}
-            href="https://github.com/lautarogregorat/Animalia"
-          >
-            <GitHubIcon
-              sx={{
-                color: "white",
-              }}
-            />
-          </IconButton>
-        </Box>
-      </Toolbar>
+      <Box display="flex" justifyContent="center" alignItems="center">
+          <img alt='tangoAppLogo' src={imagen} style={{ maxWidth: '30%', height: '32px' }}/>
+      </Box>
     </AppBar>
-  );
-};
-export default Header;
+  )
+}
+export default Header

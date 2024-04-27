@@ -1,268 +1,310 @@
-import React, {useState} from 'react';
-import {Paper} from '@mui/material';
-import {Container} from '@mui/material';
-import {Grid} from '@mui/material';
-import {Typography} from '@mui/material';
-import {TextField} from '@mui/material';
-import {FormControl} from '@mui/material';
-import {InputLabel} from '@mui/material';
-import {Select} from '@mui/material';
-import {MenuItem} from '@mui/material';
-import {FormHelperText} from '@mui/material';
-import {Button} from '@mui/material';
-import {Divider} from '@mui/material';
-import {Dialog} from '@mui/material';
-import {DialogTitle} from '@mui/material';
-import {DialogContent} from '@mui/material';
-import {DialogContentText} from '@mui/material';
-import {DialogActions} from '@mui/material';
-import SimpleBackdrop from './SimpleBackdrop';
-import VisuallyHiddenInput from './VisuallyHiddenInput';
-import {format, addDays} from 'date-fns';
-import {useNavigate} from 'react-router-dom';
-import AlertaError from './AlertaError';
+import React, { useState } from 'react'
+import { Paper, Container, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+
+import SimpleBackdrop from './SimpleBackdrop'
+import VisuallyHiddenInput from './VisuallyHiddenInput'
+import { useNavigate } from 'react-router-dom'
+import AlertaError from './AlertaError'
 const FormularioPedidoEnvio = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // Estados para almacenar los datos del formulario
   const [formData, setFormData] = useState({
-    nombre: '',
-    peso: '',
-    sexo: '',
-    fechaNacimiento: 'date',
-    esterilizado: '',
+    tipoDeCarga: '',
+    domicilioRetiro: {
+      calle: '',
+      numero: '',
+      localidad: '',
+      provincia: '',
+      referencia: ''
+    },
+    domicilioEntrega: {
+      calle: '',
+      numero: '',
+      localidad: '',
+      provincia: '',
+      referencia: ''
+    },
+    fechaRetiro: 'date',
+    fechaEntrega: 'date',
     descripcion: '',
-    responsableId: 0,
-    nombreResponsable: '',
-    apellidoResponsable: '',
-    emailResponsable: '',
-    telefonoResponsable: '',
-    foto: 'string',
-  });
-  const [selectedFile, setSelectedFile] = React.useState(null);
-  const [openConfirm, setOpenConfirm] = React.useState(false);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
+    email: '',
+    foto: 'string'
+  })
+  const [selectedFile, setSelectedFile] = React.useState(null)
+  const [openConfirm, setOpenConfirm] = React.useState(false)
+  const [openSuccess, setOpenSuccess] = React.useState(false)
 
-  
   // Estado para almacenar los errores de validación
-  const [formErrors, setFormErrors] = useState({});
-  
+  const [formErrors, setFormErrors] = useState({})
+
   // Estado para el backdrop
-  const [openBackdrop, setOpenBackdrop] = useState(false);
-  
+  const [openBackdrop, setOpenBackdrop] = useState(false)
+
   // Estado para mostrar error
-  const [openError, setOpenError] = useState(false);
-  
-    // Manejar cambios en los campos del formulario
+  const [openError, setOpenError] = useState(false)
+
+  // Manejar cambios en los campos del formulario
   const handleInputChange = (event) => {
-    const {name, value} = event.target;
-  
-    let errors = {...formErrors};
-  
-    // Validación para el campo "Nombre"
-    if (name === 'nombre' && value.trim() === '') {
-      errors.nombre = 'El campo "Nombre" no puede estar vacío';
-    } else {
-      errors[name] = '';
-    }
-  
-    setFormErrors(errors);
-  
+    console.log(event)
+    const { name, value } = event.target
+
+    const errors = { ...formErrors }
+
+    setFormErrors(errors)
+
     setFormData({
       ...formData,
-      [name]: value,
-    });
-  };
-  
+      [name]: value
+    })
+
+    console.log(formData)
+  }
+
   // Manejar el envío del formulario
   const handleSubmit = async (event) => {
-    event.preventDefault();
-  
-    let errors = {...formErrors};
-  
+    event.preventDefault()
+
+    const errors = { ...formErrors }
+
     // Verificar si el campo "Nombre" está vacío
     if (formData.nombre.trim() === '') {
-      errors.nombre = 'El campo "Nombre" no puede estar vacío';
+      errors.nombre = 'El campo "Nombre" no puede estar vacío'
     }
     // Verficar si el campo Esterilizado esta vacio
     if (formData.esterilizado === '') {
-      errors.esterilizado = 'Debe seleccionar una opción en "Esterilizado"';
+      errors.esterilizado = 'Debe seleccionar una opción en "Esterilizado"'
     }
-    setFormErrors(errors);
-  
+    setFormErrors(errors)
+
     // Si hay errores, no enviar el formulario
     if (Object.values(errors).some((error) => error !== '')) {
-      return;
+      return
     }
-  
-    setOpenConfirm(true);
-  };
+
+    setOpenConfirm(true)
+  }
 
   const handleConfirm = async () => {
-    setOpenConfirm(false);
-    setOpenBackdrop(true);
+    setOpenConfirm(false)
+    setOpenBackdrop(true)
     // Aquí va el código para enviar los datos
     try {
-  
       // Crear un nuevo objeto formData con la fecha formateada
       const formattedFormData = {
         ...formData,
-        fechaNacimiento:
-            formData.fechaNacimiento !== 'date'
-              ? format(
-                  addDays(new Date(formData.fechaNacimiento), 1),
-                  'yyyy-MM-dd'
-              )
-              : '',
-        esterilizado: Number(formData.esterilizado),
-        peso: Number(formData.peso),
-        telefonoResponsable: Number(formData.telefonoResponsable),
-        foto: selectedFile ? selectedFile : null,
-        //simular un error
-        //nombre: '',
-            
-      };
-      console.log(formattedFormData);
-      
+        foto: selectedFile || null
+      }
+      console.log(formattedFormData)
+
       // Enviar datos a la API
-      setOpenBackdrop(true);
+      setOpenBackdrop(true)
       // Simular un tiempo de espera
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       // Manejar la respuesta de la API
-      setOpenBackdrop(false);
-      setOpenSuccess(true);
+      setOpenBackdrop(false)
+      setOpenSuccess(true)
       // limpio los campos
       setFormData({
-        nombre: '',
-        peso: '',
-        sexo: '',
-        fechaNacimiento: 'date',
-        esterilizado: '',
+        tipoDeCarga: '',
+        domicilioRetiro: {
+          calleNumero: '',
+          localidad: '',
+          provincia: '',
+          referencia: ''
+        },
+        domicilioEntrega: {
+          calleNumero: '',
+          localidad: '',
+          provincia: '',
+          referencia: ''
+        },
+        fechaRetiro: 'date',
+        fechaEntrega: 'date',
         descripcion: '',
-        responsableId: 0,
-        nombreResponsable: '',
-        apellidoResponsable: '',
-        emailResponsable: '',
-        telefonoResponsable: '',
-        foto: '',
-      });
-      setSelectedFile(null);
-      setOpenError(false);
-    } 
-    catch (error) {
-      console.error(error);
-      setOpenBackdrop(false);
-      //alert("Ha ocurrido un error!, toca el boton para ser redirigido a la pagina principal.");
-      //navigate("/home");
-      setOpenError(true);
+        email: '',
+        foto: 'string'
+      })
+      setSelectedFile(null)
+      setOpenError(false)
+    } catch (error) {
+      console.error(error)
+      setOpenBackdrop(false)
+      // alert("Ha ocurrido un error!, toca el boton para ser redirigido a la pagina principal.");
+      // navigate("/home");
+      setOpenError(true)
     }
-  };
-
+  }
 
   return (
-    <Container maxWidth="sm" sx={{textAlign: 'center', marginTop: '45px'}}>
+    <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: '45px' }}>
       <Paper
         elevation={3}
         sx={{
           backgroundColor: 'white',
           boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
           borderRadius: '8px',
-          padding: '20px',
+          padding: '20px'
         }}
       >
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                Registrar Paciente
+                Publicar Pedido de Envio
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+            </Grid>
+            <Grid item xs={12} textAlign={'left'}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>Tipo de Carga *</InputLabel>
+             <Select
+                label="Tipo de Carga"
+                variant='outlined'
+                name='tipoDeCarga'
+                fullWidth
+                value={formData.tipoDeCarga}
+                onChange={e => handleInputChange(e)}
+              >
+                <MenuItem value={'documentacion'}>Documentación</MenuItem>
+                <MenuItem value={'paquete'}>Paquete</MenuItem>
+                <MenuItem value={'granos'}>Granos</MenuItem>
+                <MenuItem value={'hacienda'}>Hacienda</MenuItem>
+              </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Domicilio de Entrega
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Nombre *"
+                label="Calle Entrega"
                 variant="outlined"
                 fullWidth
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
-                error={!!formErrors.nombre}
-                helperText={formErrors.nombre}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Especie"
-                variant="outlined"
-                fullWidth
-                name="especie"
-                value={formData.especie}
+                name="domicilioEntrega.calle"
+                value={formData.domicilioEntrega.calle}
                 onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Raza"
+                label="Numero Entrega"
                 variant="outlined"
                 fullWidth
-                name="raza"
-                value={formData.raza}
+                name="domicilioEntrega.numero"
+                value={formData.domicilioEntrega.numero}
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={12} textAlign={'left'}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Sexo</InputLabel>
-                <Select
-                  label="Sexo"
-                  name="sexo"
-                  value={formData.sexo}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Hembra">Hembra</MenuItem>
-                  {/* Agrega más categorías según tus necesidades */}
-                </Select>
-              </FormControl>
+            <Grid item xs={12}>
+              <TextField
+                label="Localidad"
+                variant="outlined"
+                fullWidth
+                name="domicilioEntrega.localidad"
+                value={formData.domicilioEntrega.localidad}
+                onChange={handleInputChange}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Fecha de Nacimiento"
+                label="Provincia"
+                variant="outlined"
+                fullWidth
+                name="domicilioEntrega.provincia"
+                value={formData.domicilioEntrega.provincia}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Referencia (opcional)"
+                variant="outlined"
+                fullWidth
+                name="domicilioEntrega.referencia"
+                value={formData.domicilioEntrega.referencia}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Fecha de Entrega"
                 variant="outlined"
                 type="date"
                 fullWidth
-                name="fechaNacimiento"
-                value={formData.fechaNacimiento}
+                name="fechaEntrega"
+                value={formData.fechaEntrega}
                 onChange={handleInputChange}
-                error={!!formErrors.fechaNacimiento}
-                helperText={formErrors.fechaNacimiento}
+                error={!!formErrors.fechaEntrega}
+                helperText={formErrors.fechaEntrega}
               />
             </Grid>
-            <Grid item xs={12} textAlign={'left'}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Esterilizado *</InputLabel>
-                <Select
-                  label="Esterilizado"
-                  name="esterilizado"
-                  value={formData.esterilizado}
-                  onChange={handleInputChange}
-                  error={!!formErrors.esterilizado}
-                >
-                  <MenuItem value="1">Si</MenuItem>
-                  <MenuItem value="0">No</MenuItem>
-                  {/* Agrega más categorías según tus necesidades */}
-                </Select>
-                <FormHelperText error={!!formErrors.esterilizado}>
-                  {formErrors.esterilizado}
-                </FormHelperText>
-              </FormControl>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Domicilio de Retiro
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Descripcion"
+                label="Calle"
                 variant="outlined"
                 fullWidth
-                name="descripcion"
-                value={formData.descripcion}
+                name="domicilioRetiro.calle"
+                value={formData.domicilioRetiro.calle}
                 onChange={handleInputChange}
+              />
+              <TextField
+                label="Número"
+                variant="outlined"
+                fullWidth
+                name="domicilioRetiro.calleNumero"
+                value={formData.domicilioRetiro.numero}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Localidad"
+                variant="outlined"
+                fullWidth
+                name="domicilioRetiro.localidad"
+                value={formData.domicilioRetiro.localidad}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Provincia"
+                variant="outlined"
+                fullWidth
+                name="domicilioRetiro.provincia"
+                value={formData.domicilioRetiro.provincia}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Referencia (opcional)"
+                variant="outlined"
+                fullWidth
+                name="domicilioRetiro.referencia"
+                value={formData.domicilioRetiro.referencia}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Fecha de Retiro"
+                variant="outlined"
+                type="date"
+                fullWidth
+                name="fechaRetiro"
+                value={formData.fechaRetiro}
+                onChange={handleInputChange}
+                error={!!formErrors.fechaRetiro}
+                helperText={formErrors.fechaRetiro}
               />
             </Grid>
             <Grid item xs={12}>
@@ -278,8 +320,8 @@ const FormularioPedidoEnvio = () => {
               backgroundColor: '#6fbe56',
               '&:hover': {
                 backgroundColor: '#6fbe56',
-                filter: 'brightness(1.1)',
-              },
+                filter: 'brightness(1.1)'
+              }
             }}
             fullWidth
           >
@@ -319,8 +361,8 @@ const FormularioPedidoEnvio = () => {
         <DialogActions>
           <Button
             onClick={() => {
-              setOpenSuccess(false);
-              navigate(`/home`);
+              setOpenSuccess(false)
+              navigate('/home')
             }}
             color="primary"
           >
@@ -330,7 +372,7 @@ const FormularioPedidoEnvio = () => {
       </Dialog>
       {openError && <AlertaError />}
     </Container>
-  );
-};
+  )
+}
 
-export default FormularioPedidoEnvio;
+export default FormularioPedidoEnvio

@@ -1,10 +1,10 @@
+import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Inicio from './components/Inicio'
+import FormularioPedidoEnvio from './components/FormularioPedidoEnvio'
+import Formulario2 from './components/Formulario2'
 
-import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import Inicio from './components/Inicio';
-import FormularioPedidoEnvio from './components/FormularioPedidoEnvio';
-// eslint-disable-next-line require-jsdoc
-function App() {
+function App () {
   return (
     <>
       <Routes>
@@ -14,7 +14,7 @@ function App() {
 
       </Routes>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

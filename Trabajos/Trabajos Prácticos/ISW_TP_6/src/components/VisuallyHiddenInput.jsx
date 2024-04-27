@@ -1,11 +1,13 @@
 /* eslint-disable linebreak-style */
-import * as React from 'react';
-import {styled} from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CloudDoneIcon from '@mui/icons-material/CloudDone';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
+import * as React from 'react'
+import { styled } from '@mui/material/styles'
+import Button from '@mui/material/Button'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import CloudDoneIcon from '@mui/icons-material/CloudDone'
+import DeleteIcon from '@mui/icons-material/Delete'
+import IconButton from '@mui/material/IconButton'
+import PropTypes from 'prop-types'
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -15,22 +17,30 @@ const VisuallyHiddenInput = styled('input')({
   bottom: 0,
   left: 0,
   whiteSpace: 'nowrap',
-  width: 1,
-});
+  width: 1
+})
 
-// eslint-disable-next-line require-jsdoc
-export default function InputFileUpload(props) {
-  const [selectedFile, setSelectedFile] = React.useState(null);
+InputFileUpload.propTypes = {
+  setSelectedFile2: PropTypes.func
+}
+
+export default function InputFileUpload ({ setSelectedFile2 }) {
+  const [selectedFiles, setSelectedFiles] = React.useState(null)
 
   const handleImageChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    props.setSelectedFile(event.target.files[0]);
-  };
+    const files = event.target.files
+    const acceptedTypes = ['image/jpeg', 'image/png']
+    const newFiles = Array.from(files).filter((file) =>
+      acceptedTypes.includes(file.type)
+    )
+    setSelectedFiles([...selectedFiles, ...newFiles])
+    setSelectedFile2(newFiles)
+  }
 
-  const handleRemoveImage = () => {
-    setSelectedFile(null);
-    props.setSelectedFile(null);
-  };
+  const handleRemoveImage = (fileToRemove) => {
+    setSelectedFiles(selectedFiles.filter(file => file !== fileToRemove))
+    setSelectedFile2(null)
+  }
 
   return (
     <>
@@ -39,21 +49,21 @@ export default function InputFileUpload(props) {
         variant="contained"
         startIcon={<CloudUploadIcon />}
         sx={{
-          'backgroundColor': '#dda15e',
+          backgroundColor: '#dda15e',
           '&:hover': {
-            backgroundColor: '#D09F5C',
-          },
+            backgroundColor: '#D09F5C'
+          }
         }}
       >
         Cargar imagen
         <VisuallyHiddenInput type="file" onChange={handleImageChange} />
       </Button>
-      {selectedFile && <CloudDoneIcon color="success" />}
-      {selectedFile && (
+      {selectedFiles && <CloudDoneIcon color="success" />}
+      {selectedFiles && (
         <IconButton onClick={handleRemoveImage} variant="outlined">
           <DeleteIcon />
         </IconButton>
       )}
     </>
-  );
+  )
 }
