@@ -83,7 +83,7 @@ const FormularioPedidoEnvio = () => {
   }
   // Manejar el accordion
   const handleOpenEntrega = () => {
-    setAccordionEntrega(!accordionRetiro)
+    setAccordionEntrega(!accordionEntrega)
   }
 
   // Manejar el envío del formulario
