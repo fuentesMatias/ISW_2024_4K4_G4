@@ -34,25 +34,21 @@ const Formulario2 = () => {
 
   const [formData, setFormData] = useState({
     tipoDeCarga: '',
-    domicilioRetiro: {
-      calle: '',
-      numero: '',
-      localidad: '',
-      provincia: '',
-      referencia: '' // Referencia opcional
-    },
-    domicilioEntrega: {
-      calle: '',
-      numero: '',
-      localidad: '',
-      provincia: '',
-      referencia: '' // Referencia opcional
-    },
-    fechaRetiro: '',
-    fechaEntrega: '',
+    calleRetiro: '',
+    numeroRetiro: '',
+    localidadRetiro: '',
+    provinciaRetiro: '',
+    referenciaRetiro: '',
+    fechaRetiro: 'date',
+    calleEntrega: '',
+    numeroEntrega: '',
+    localidadEntrega: '',
+    provinciaEntrega: '',
+    referenciaEntrega: '',
+    fechaEntrega: 'date',
     descripcion: '',
     email: '',
-    foto: null // Sin foto por defecto
+    foto: null
   })
 
   const [selectedFile, setSelectedFile] = useState(null)
@@ -101,30 +97,36 @@ const Formulario2 = () => {
     // Validación de campos obligatorios
     const mandatoryFields = [
       'tipoDeCarga',
-      'domicilioRetiro.calle',
-      'domicilioRetiro.numero',
-      'domicilioRetiro.localidad',
-      'domicilioRetiro.provincia',
-      'domicilioEntrega.calle',
-      'domicilioEntrega.numero',
-      'domicilioEntrega.localidad',
-      'domicilioEntrega.provincia',
+      'calleRetiro',
+      'numeroRetiro',
+      'localidadRetiro',
+      'provinciaRetiro',
       'fechaRetiro',
+      'calleEntrega',
+      'numeroEntrega',
+      'localidadEntrega',
+      'provinciaEntrega',
       'fechaEntrega',
       'descripcion',
       'email'
     ]
 
+    // Validación de campos obligatorios y tipo de fecha
     mandatoryFields.forEach((field) => {
-      if (formData[field] === '') {
-        errors[field] = `El campo ${field} es obligatorio`
+      if ((field === 'fechaRetiro' || field === 'fechaEntrega') && formData[field] === 'date') {
+        errors[field] = 'El campo es obligatorio'
+      } else {
+        // Si el campo no es de tipo fecha
+        if (formData[field] === '') {
+          errors[field] = 'El campo es obligatorio'
+        }
       }
     })
 
     // Validación de fechas
-    const currentDate = new Date()
     const fechaRetiro = new Date(formData.fechaRetiro)
     const fechaEntrega = new Date(formData.fechaEntrega)
+    const currentDate = new Date()
 
     if (fechaRetiro < currentDate) {
       errors['fechaRetiro'] = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
@@ -137,10 +139,6 @@ const Formulario2 = () => {
     if (fechaEntrega < fechaRetiro) {
       errors['fechaEntrega'] = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
     }
-
-    // Removemos el campo de referencia de los errores
-    delete errors['domicilioRetiro.referencia']
-    delete errors['domicilioEntrega.referencia']
 
     setFormErrors(errors)
 
@@ -167,21 +165,17 @@ const Formulario2 = () => {
       setOpenSuccess(true)
       setFormData({
         tipoDeCarga: '',
-        domicilioRetiro: {
-          calle: '',
-          numero: '',
-          localidad: '',
-          provincia: '',
-          referencia: ''
-        },
-        domicilioEntrega: {
-          calle: '',
-          numero: '',
-          localidad: '',
-          provincia: '',
-          referencia: ''
-        },
+        calleRetiro: '',
+        numeroRetiro: '',
+        localidadRetiro: '',
+        provinciaRetiro: '',
+        referenciaRetiro: '',
         fechaRetiro: '',
+        calleEntrega: '',
+        numeroEntrega: '',
+        localidadEntrega: '',
+        provinciaEntrega: '',
+        referenciaEntrega: '',
         fechaEntrega: '',
         descripcion: '',
         email: '',
@@ -215,11 +209,11 @@ const Formulario2 = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} textAlign={'left'}>
-              <FormControl variant="outlined" fullWidth>
+              <FormControl variant="outlined" fullWidth error={!!formErrors.tipoDeCarga} helperText={formErrors.tipoDeCarga}>
                 <InputLabel>Tipo de Carga *</InputLabel>
                 <Select
                   style={{ fontFamily: 'Rubik, sans-serif' }}
-                  label="Tipo de Carga"
+                  label="Tipo de Carga *"
                   variant='outlined'
                   name='tipoDeCarga'
                   fullWidth
@@ -251,8 +245,10 @@ const Formulario2 = () => {
                         label="Calle"
                         variant="standard"
                         fullWidth
-                        name="domicilioRetiro.calle"
-                        value={formData.domicilioRetiro.calle}
+                        name="calleRetiro"
+                        value={formData.calleRetiro}
+                        error={!!formErrors.calleRetiro}
+                        helperText={formErrors.calleRetiro}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -262,8 +258,10 @@ const Formulario2 = () => {
                         label="Número"
                         variant="standard"
                         fullWidth
-                        name="domicilioRetiro.numero"
-                        value={formData.domicilioRetiro.numero}
+                        name="numeroRetiro"
+                        value={formData.numeroRetiro}
+                        error={!!formErrors.numeroRetiro}
+                        helperText={formErrors.numeroRetiro}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                         type="number"
@@ -274,8 +272,10 @@ const Formulario2 = () => {
                         label="Localidad"
                         variant="standard"
                         fullWidth
-                        name="domicilioRetiro.localidad"
-                        value={formData.domicilioRetiro.localidad}
+                        name="localidadRetiro"
+                        value={formData.localidadRetiro}
+                        error={!!formErrors.localidadRetiro}
+                        helperText={formErrors.localidadRetiro}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -285,8 +285,10 @@ const Formulario2 = () => {
                         label="Provincia"
                         variant="standard"
                         fullWidth
-                        name="domicilioRetiro.provincia"
-                        value={formData.domicilioRetiro.provincia}
+                        name="provinciaRetiro"
+                        value={formData.provinciaRetiro}
+                        error={!!formErrors.provinciaRetiro}
+                        helperText={formErrors.provinciaRetiro}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -297,8 +299,8 @@ const Formulario2 = () => {
                         variant="outlined"
                         multiline
                         fullWidth
-                        name="domicilioRetiro.referencia"
-                        value={formData.domicilioRetiro.referencia}
+                        name="referenciaRetiro"
+                        value={formData.referenciaRetiro}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -338,8 +340,10 @@ const Formulario2 = () => {
                         label="Calle"
                         variant="standard"
                         fullWidth
-                        name="domicilioEntrega.calle"
-                        value={formData.domicilioEntrega.calle}
+                        name="calleEntrega"
+                        value={formData.calleEntrega}
+                        error={!!formErrors.calleEntrega}
+                        helperText={formErrors.calleEntrega}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -349,8 +353,10 @@ const Formulario2 = () => {
                         label="Número"
                         variant="standard"
                         fullWidth
-                        name="domicilioEntrega.numero"
-                        value={formData.domicilioEntrega.numero}
+                        name="numeroEntrega"
+                        value={formData.numeroEntrega}
+                        error={!!formErrors.numeroEntrega}
+                        helperText={formErrors.numeroEntrega}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                         type="number"
@@ -361,8 +367,10 @@ const Formulario2 = () => {
                         label="Localidad"
                         variant="standard"
                         fullWidth
-                        name="domicilioEntrega.localidad"
-                        value={formData.domicilioEntrega.localidad}
+                        name="localidadEntrega"
+                        value={formData.localidadEntrega}
+                        error={!!formErrors.localidadEntrega}
+                        helperText={formErrors.localidadEntrega}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -372,8 +380,10 @@ const Formulario2 = () => {
                         label="Provincia"
                         variant="standard"
                         fullWidth
-                        name="domicilioEntrega.provincia"
-                        value={formData.domicilioEntrega.provincia}
+                        name="provinciaEntrega"
+                        value={formData.provinciaEntrega}
+                        error={!!formErrors.provinciaEntrega}
+                        helperText={formErrors.provinciaEntrega}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
@@ -384,8 +394,8 @@ const Formulario2 = () => {
                         variant="outlined"
                         multiline
                         fullWidth
-                        name="domicilioEntrega.referencia"
-                        value={formData.domicilioEntrega.referencia}
+                        name="referenciaEntrega"
+                        value={formData.referenciaEntrega}
                         onChange={handleInputChange}
                         color={LIGHT_BLUE_COLOR}
                       />
