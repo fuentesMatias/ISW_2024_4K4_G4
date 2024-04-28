@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Paper, Container, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Accordion } from '@mui/material'
+import { Paper, Container, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 
 import SimpleBackdrop from './SimpleBackdrop'
 import VisuallyHiddenInput from './VisuallyHiddenInput'
@@ -36,6 +36,9 @@ const FormularioPedidoEnvio = () => {
   const [selectedFile, setSelectedFile] = React.useState(null)
   const [openConfirm, setOpenConfirm] = React.useState(false)
   const [openSuccess, setOpenSuccess] = React.useState(false)
+  const [accordionRetiro, setAccordionRetiro] = React.useState(false)
+
+
 
   // Estado para almacenar los errores de validación
   const [formErrors, setFormErrors] = useState({})
@@ -68,6 +71,10 @@ const FormularioPedidoEnvio = () => {
     }
   }
   console.log(formData)
+
+  //Manejar el accordion
+  const handleOpenRetiro = () =>{
+    setAccordionRetiro(!accordionRetiro)}
 
   // Manejar el envío del formulario
   const handleSubmit = async (event) => {
@@ -264,75 +271,84 @@ const FormularioPedidoEnvio = () => {
                 Domicilio de Retiro
               </Typography>
             </Grid>
-            <Accordion>
             <Grid item xs={12}>
-              <TextField
-                label="Calle"
-                variant="standard"
-                fullWidth
-                name="domicilioRetiro.calle"
-                value={formData.domicilioRetiro.calle}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-                />
-              <TextField
-                label="Número"
-                variant="standard"
-                fullWidth
-                name="domicilioRetiro.calleNumero"
-                value={formData.domicilioRetiro.numero}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-                />
+              <Accordion>
+                <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenRetiro}>
+                  {accordionRetiro? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Calle"
+                      variant="standard"
+                      fullWidth
+                      name="domicilioRetiro.calle"
+                      value={formData.domicilioRetiro.calle}
+                      onChange={handleInputChange}
+                      color={LIGHT_BLUE_COLOR}
+                      />
+                  </Grid >
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Número"
+                      variant="standard"
+                      fullWidth
+                      name="domicilioRetiro.calleNumero"
+                      value={formData.domicilioRetiro.numero}
+                      onChange={handleInputChange}
+                      color={LIGHT_BLUE_COLOR}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Localidad"
+                      variant="standard"
+                      fullWidth
+                      name="domicilioRetiro.localidad"
+                      value={formData.domicilioRetiro.localidad}
+                      onChange={handleInputChange}
+                      color={LIGHT_BLUE_COLOR}
+                      />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Provincia"
+                      variant="standard"
+                      fullWidth
+                      name="domicilioRetiro.provincia"
+                      value={formData.domicilioRetiro.provincia}
+                      onChange={handleInputChange}
+                      color={LIGHT_BLUE_COLOR}
+                      />
+                  </Grid>
+                  <Grid item xs={12} marginY='0.85em'>
+                    <TextField
+                      label="Referencia (opcional)"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      name="domicilioRetiro.referencia"
+                      value={formData.domicilioRetiro.referencia}
+                      onChange={handleInputChange}
+                      color={LIGHT_BLUE_COLOR}
+                    />
+                  </Grid>
+                  <Grid item xs={12} marginY='0.75em'>
+                    <TextField
+                      label="Fecha de Retiro"
+                      variant="outlined"
+                      type="date"
+                      fullWidth
+                      name="fechaRetiro"
+                      value={formData.fechaRetiro}
+                      onChange={handleInputChange}
+                      error={!!formErrors.fechaRetiro}
+                      helperText={formErrors.fechaRetiro}
+                    />
+                  </Grid>
+                </AccordionDetails>
+              </Accordion> 
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Localidad"
-                variant="standard"
-                fullWidth
-                name="domicilioRetiro.localidad"
-                value={formData.domicilioRetiro.localidad}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-                />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Provincia"
-                variant="standard"
-                fullWidth
-                name="domicilioRetiro.provincia"
-                value={formData.domicilioRetiro.provincia}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-                />
-            </Grid>
-            <Grid item xs={12} marginY='0.85em'>
-              <TextField
-                label="Referencia (opcional)"
-                variant="outlined"
-                fullWidth
-                multiline
-                name="domicilioRetiro.referencia"
-                value={formData.domicilioRetiro.referencia}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-              />
-            </Grid>
-            <Grid item xs={12} marginY='0.75em'>
-              <TextField
-                label="Fecha de Retiro"
-                variant="outlined"
-                type="date"
-                fullWidth
-                name="fechaRetiro"
-                value={formData.fechaRetiro}
-                onChange={handleInputChange}
-                error={!!formErrors.fechaRetiro}
-                helperText={formErrors.fechaRetiro}
-              />
-            </Grid>
-            </Accordion>
             <Grid item xs={12} >
               <VisuallyHiddenInput setSelectedFile={setSelectedFile} />
             </Grid>

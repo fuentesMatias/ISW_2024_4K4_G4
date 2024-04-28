@@ -25,7 +25,7 @@ InputFileUpload.propTypes = {
 }
 
 export default function InputFileUpload ({ setSelectedFile2 }) {
-  const [selectedFiles, setSelectedFiles] = React.useState(null)
+  const [selectedFiles, setSelectedFiles] = React.useState([])
 
   const handleImageChange = (event) => {
     const files = event.target.files
@@ -34,12 +34,12 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
       acceptedTypes.includes(file.type)
     )
     setSelectedFiles([...selectedFiles, ...newFiles])
-    setSelectedFile2(newFiles)
+    setSelectedFile2([...selectedFiles, ...newFiles])
   }
 
   const handleRemoveImage = (fileToRemove) => {
     setSelectedFiles(selectedFiles.filter(file => file !== fileToRemove))
-    setSelectedFile2(null)
+    setSelectedFile2(selectedFiles.filter(file => file !== fileToRemove))
   }
 
   return (
@@ -66,12 +66,15 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
         Cargar imagen
         <VisuallyHiddenInput type="file" onChange={handleImageChange} />
       </Button>
-      {selectedFiles && <CloudDoneIcon color="success" />}
-      {selectedFiles && (
-        <IconButton onClick={handleRemoveImage} variant="outlined">
-          <DeleteIcon />
-        </IconButton>
-      )}
+      {selectedFiles.length > 0 && selectedFiles.map((file, index) => (
+        <div key={index}>
+          <CloudDoneIcon color="success" />
+          <span>{file.name}</span>
+          <IconButton onClick={() => handleRemoveImage(file)} variant="outlined">
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      ))}
     </>
   )
 }
