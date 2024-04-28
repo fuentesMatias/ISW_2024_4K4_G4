@@ -6,6 +6,7 @@ import VisuallyHiddenInput from './VisuallyHiddenInput'
 import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
 import { lightBlue } from '@mui/material/colors'
+import FormHelperText from '@mui/material/FormHelperText'
 
 const LIGHT_BLUE_COLOR = lightBlue[500300]
 const FormularioPedidoEnvio = () => {
@@ -52,6 +53,11 @@ const FormularioPedidoEnvio = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target
     const errors = { ...formErrors }
+    if (name === 'tipoDeCarga' && value === '') {
+      errors.tipoDeCarga = '*'
+    } else {
+      errors.tipoDeCarga = ''
+    }
     setFormErrors(errors)
     if (name.includes('.')) {
       const [firstProp, secondProp] = name.split('.')
@@ -84,22 +90,22 @@ const FormularioPedidoEnvio = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    // const errors = { ...formErrors }
+    const errors = { ...formErrors }
 
-    /* // Verificar si el campo "Nombre" está vacío
-    if (formData.nombre.trim() === '') {
+    // Verificar si el campo "Nombre" está vacío
+    /* if (formData.nombre.trim() === '') {
       errors.nombre = 'El campo "Nombre" no puede estar vacío'
-    }
-    // Verficar si el campo Esterilizado esta vacio
-    if (formData.esterilizado === '') {
-      errors.esterilizado = 'Debe seleccionar una opción en "Esterilizado"'
+    } */
+    // Verficar si el campo Tipo de carga esta vacio
+    if (formData.tipoDeCarga === '') {
+      errors.tipoDeCarga = 'Debe seleccionar una opción en "Tipo de Carga"'
     }
     setFormErrors(errors)
 
     // Si hay errores, no enviar el formulario
     if (Object.values(errors).some((error) => error !== '')) {
       return
-    } */
+    }
 
     setOpenConfirm(true)
   }
@@ -187,12 +193,14 @@ const FormularioPedidoEnvio = () => {
                 value={formData.tipoDeCarga}
                 onChange={e => handleInputChange(e)}
                 color={LIGHT_BLUE_COLOR}
+                error={!!formErrors.tipoDeCarga}
               >
                 <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'documentacion'}>Documentación</MenuItem>
                 <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'paquete'}>Paquete</MenuItem>
                 <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'granos'}>Granos</MenuItem>
                 <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'hacienda'}>Hacienda</MenuItem>
               </Select>
+              <FormHelperText error={!!formErrors.tipoDeCarga}>{formErrors.tipoDeCarga}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
