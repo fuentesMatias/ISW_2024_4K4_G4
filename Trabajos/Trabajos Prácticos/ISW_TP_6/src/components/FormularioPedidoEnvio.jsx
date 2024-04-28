@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { Paper, Container, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+import { Paper, Container, Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Accordion } from '@mui/material'
 
 import SimpleBackdrop from './SimpleBackdrop'
 import VisuallyHiddenInput from './VisuallyHiddenInput'
 import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
+import { lightBlue } from '@mui/material/colors';
+
+const LIGHT_BLUE_COLOR = lightBlue[500300];
 const FormularioPedidoEnvio = () => {
   const navigate = useNavigate()
   // Estados para almacenar los datos del formulario
@@ -45,20 +48,26 @@ const FormularioPedidoEnvio = () => {
 
   // Manejar cambios en los campos del formulario
   const handleInputChange = (event) => {
-    console.log(event)
     const { name, value } = event.target
-
     const errors = { ...formErrors }
-
     setFormErrors(errors)
-
-    setFormData({
-      ...formData,
-      [name]: value
-    })
-
-    console.log(formData)
+    if (name.includes('.')) {
+      const [firstProp, secondProp] = name.split('.');
+      setFormData({
+        ...formData,
+        [firstProp]: {
+          ...formData[firstProp],
+          [secondProp]: value
+        }
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      })
+    }
   }
+  console.log(formData)
 
   // Manejar el envío del formulario
   const handleSubmit = async (event) => {
@@ -149,7 +158,7 @@ const FormularioPedidoEnvio = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h3" gutterBottom fontFamily={'Rubik, sans-serif'} fontSize='1.75em'>
                 Publicar Pedido de Envio
               </Typography>
             </Grid>
@@ -159,76 +168,84 @@ const FormularioPedidoEnvio = () => {
               <FormControl variant="outlined" fullWidth>
                 <InputLabel>Tipo de Carga *</InputLabel>
              <Select
+                style={ { fontFamily: 'Rubik, sans-serif' } }
                 label="Tipo de Carga"
                 variant='outlined'
                 name='tipoDeCarga'
                 fullWidth
                 value={formData.tipoDeCarga}
                 onChange={e => handleInputChange(e)}
+                color={LIGHT_BLUE_COLOR}
               >
-                <MenuItem value={'documentacion'}>Documentación</MenuItem>
-                <MenuItem value={'paquete'}>Paquete</MenuItem>
-                <MenuItem value={'granos'}>Granos</MenuItem>
-                <MenuItem value={'hacienda'}>Hacienda</MenuItem>
+                <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'documentacion'}>Documentación</MenuItem>
+                <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'paquete'}>Paquete</MenuItem>
+                <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'granos'}>Granos</MenuItem>
+                <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'hacienda'}>Hacienda</MenuItem>
               </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
                 Domicilio de Entrega
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Calle Entrega"
-                variant="outlined"
+                label="Calle"
+                variant="standard"
                 fullWidth
                 name="domicilioEntrega.calle"
                 value={formData.domicilioEntrega.calle}
                 onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Numero Entrega"
-                variant="outlined"
+                label="Numero"
+                variant="standard"
                 fullWidth
                 name="domicilioEntrega.numero"
                 value={formData.domicilioEntrega.numero}
                 onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Localidad"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioEntrega.localidad"
                 value={formData.domicilioEntrega.localidad}
                 onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Provincia"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioEntrega.provincia"
                 value={formData.domicilioEntrega.provincia}
                 onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} marginY='0.85em'>
               <TextField
                 label="Referencia (opcional)"
                 variant="outlined"
+                multiline
                 fullWidth
                 name="domicilioEntrega.referencia"
                 value={formData.domicilioEntrega.referencia}
                 onChange={handleInputChange}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} marginY='0.75em'>
               <TextField
                 label="Fecha de Entrega"
                 variant="outlined"
@@ -239,62 +256,70 @@ const FormularioPedidoEnvio = () => {
                 onChange={handleInputChange}
                 error={!!formErrors.fechaEntrega}
                 helperText={formErrors.fechaEntrega}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
                 Domicilio de Retiro
               </Typography>
             </Grid>
+            <Accordion>
             <Grid item xs={12}>
               <TextField
                 label="Calle"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioRetiro.calle"
                 value={formData.domicilioRetiro.calle}
                 onChange={handleInputChange}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
               <TextField
                 label="Número"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioRetiro.calleNumero"
                 value={formData.domicilioRetiro.numero}
                 onChange={handleInputChange}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Localidad"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioRetiro.localidad"
                 value={formData.domicilioRetiro.localidad}
                 onChange={handleInputChange}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Provincia"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 name="domicilioRetiro.provincia"
                 value={formData.domicilioRetiro.provincia}
                 onChange={handleInputChange}
-              />
+                color={LIGHT_BLUE_COLOR}
+                />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} marginY='0.85em'>
               <TextField
                 label="Referencia (opcional)"
                 variant="outlined"
                 fullWidth
+                multiline
                 name="domicilioRetiro.referencia"
                 value={formData.domicilioRetiro.referencia}
                 onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} marginY='0.75em'>
               <TextField
                 label="Fecha de Retiro"
                 variant="outlined"
@@ -307,7 +332,8 @@ const FormularioPedidoEnvio = () => {
                 helperText={formErrors.fechaRetiro}
               />
             </Grid>
-            <Grid item xs={12}>
+            </Accordion>
+            <Grid item xs={12} >
               <VisuallyHiddenInput setSelectedFile={setSelectedFile} />
             </Grid>
             <Divider />
@@ -323,6 +349,13 @@ const FormularioPedidoEnvio = () => {
                 filter: 'brightness(1.1)'
               }
             }}
+            style={
+              {
+                fontFamily: 'Rubik, sans-serif',
+                fontWeight: '500',
+                fontSize: '0.95em'
+              }
+            }
             fullWidth
           >
             Registrar

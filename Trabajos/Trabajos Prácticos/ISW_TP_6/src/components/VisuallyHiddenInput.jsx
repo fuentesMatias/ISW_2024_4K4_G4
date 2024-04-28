@@ -54,6 +54,14 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
             backgroundColor: '#D09F5C'
           }
         }}
+        style={
+          {
+            fontFamily: 'Rubik, sans-serif',
+            fontWeight: '500',
+            fontSize: '0.95em'
+          }
+        }
+        fullWidth
       >
         Cargar imagen
         <VisuallyHiddenInput type="file" onChange={handleImageChange} />

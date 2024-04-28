@@ -1,6 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 import { Box } from '@mui/material'
-import imagen from '../assets/tango-app-logo.png'
+import image from '../assets/tango-app-logo.svg'
 
 const Header = () => {
   return (
@@ -9,15 +9,16 @@ const Header = () => {
       sx={{
         backgroundColor: 'rgb(106,188,249)',
         background: 'linear-gradient(336deg, rgba(106,188,249,1) 5%, rgba(117,191,249,1) 52%, rgba(135,230,255,1) 94%)',
-        height: '50px',
+        height: '4em',
         minWidth: '100%',
         display: 'flex',
         justifyContent: 'center',
         marginBottom: '10%'
       }}
     >
-      <Box display="flex" justifyContent="center" alignItems="center">
-          <img alt='tangoAppLogo' src={imagen} style={{ maxWidth: '30%', height: '32px' }}/>
+      <Box display="flex" justifyContent="left" alignItems="center" padding="2em" position='relative' >
+          <div style={ { position: 'absolute', width: '4.5em', height: '35px', backgroundColor: '#ffffff', borderRadius: '50%', marginLeft: '3.75%', zIndex: -1 } } />
+          <img alt='tangoAppLogo' src={image} style={{ maxWidth: '100px', height: 'auto', color: 'darkgrey', marginLeft: '2.5%' }}/>
       </Box>
     </AppBar>
   )
