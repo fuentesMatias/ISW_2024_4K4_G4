@@ -8,6 +8,8 @@ import AlertaError from './AlertaError'
 import { lightBlue } from '@mui/material/colors'
 import FormHelperText from '@mui/material/FormHelperText'
 import VolverAlInicio from './VolverAlInicio' // Importa el nuevo componente
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 const INITIAL_FORM_STATE = {
   tipoDeCarga: '',
@@ -34,20 +36,16 @@ const INITIAL_FORM_STATE = {
 
 const INITIAL_ERRORS_STATE = {
   tipoDeCarga: '',
-  domicilioRetiro: {
-    calle: '',
-    numero: '',
-    localidad: '',
-    provincia: '',
-    referencia: ''
-  },
-  domicilioEntrega: {
-    calle: '',
-    numero: '',
-    localidad: '',
-    provincia: '',
-    referencia: ''
-  },
+  calleRetiro: '',
+  numeroRetiro: '',
+  localidadRetiro: '',
+  provinciaRetiro: '',
+  referenciaRetiro: '',
+  calleEntrega: '',
+  numeroEntrega: '',
+  localidadEntrega: '',
+  provinciaEntrega: '',
+  referenciaEntrega: '',
   fechaRetiro: '',
   fechaEntrega: ''
 }
@@ -113,7 +111,7 @@ const FormularioPedidoEnvio = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const errors = {}
+    const errors = { }
 
     // Validación de fechas
     const fechaRetiro = formData.fechaRetiro
@@ -126,40 +124,7 @@ const FormularioPedidoEnvio = () => {
 
     const fechaActualEnFormatoDeseado = `${añoActual}-${mesActual}-${diaActual}`
 
-    // console.log('Entrega:', fechaEntrega, '\nRetiro:', fechaRetiro, '\nActual:', fechaActualEnFormatoDeseado)
-
-    // console.log(fechaEntrega > fechaRetiro)
-    // console.log(fechaEntrega > fechaActualEnFormatoDeseado)
-    if (formData.tipoDeCarga === '') {
-      errors.tipoDeCarga = 'Debe seleccionar una opción en "Tipo de Carga"'
-    }
-    errors.domicilioRetiro = {}
-    errors.domicilioEntrega = {}
-
-    if (formData?.domicilioRetiro?.calle === '') {
-      errors.domicilioRetiro.calle = 'El campo Calle es obligatorio.'
-    }
-    if (formData.domicilioRetiro.numero === '') {
-      errors.domicilioRetiro.numero = 'El campo Numero es obligatorio.'
-    }
-    if (formData.domicilioRetiro.localidad === '') {
-      errors.domicilioRetiro.localidad = 'El campo Localidad es obligatorio.'
-    }
-    if (formData.domicilioRetiro.provincia === '') {
-      errors.domicilioRetiro.provincia = 'El campo Provincia es obligatorio.'
-    }
-    if (formData?.domicilioEntrega?.calle === '') {
-      errors.domicilioEntrega.calle = 'El campo Calle es obligatorio.'
-    }
-    if (formData.domicilioEntrega.numero === '') {
-      errors.domicilioEntrega.numero = 'El campo Numero es obligatorio.'
-    }
-    if (formData.domicilioEntrega.localidad === '') {
-      errors.domicilioEntrega.localidad = 'El campo Localidad es obligatorio.'
-    }
-    if (formData.domicilioEntrega.provincia === '') {
-      errors.domicilioEntrega.provincia = 'El campo Provincia es obligatorio.'
-    }
+    console.log('Fecha actual: ', fechaActualEnFormatoDeseado, '\nFecha de retiro:', fechaRetiro, '\nFecha de Entrega: ', fechaEntrega)
 
     if (fechaRetiro < fechaActualEnFormatoDeseado) {
       errors.fechaRetiro = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
@@ -173,12 +138,46 @@ const FormularioPedidoEnvio = () => {
       errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
     }
 
-    console.log(formData)
-    console.log(errors)
+    if (formData.tipoDeCarga === '') {
+      errors.tipoDeCarga = 'Debe seleccionar una opción en "Tipo de Carga"'
+    }
+    if (formData?.domicilioRetiro?.calle === '') {
+      errors.calleRetiro = 'El campo Calle es obligatorio.'
+    }
+    if (formData.domicilioRetiro.numero === '') {
+      errors.numeroRetiro = 'El campo Numero es obligatorio.'
+    }
+    if (formData.domicilioRetiro.localidad === '') {
+      errors.localidadRetiro = 'El campo Localidad es obligatorio.'
+    }
+    if (formData.domicilioRetiro.provincia === '') {
+      errors.provinciaRetiro = 'El campo Provincia es obligatorio.'
+    }
+    if (formData?.domicilioEntrega?.calle === '') {
+      errors.calleEntrega = 'El campo Calle es obligatorio.'
+    }
+    if (formData.domicilioEntrega.numero === '') {
+      errors.numeroEntrega = 'El campo Numero es obligatorio.'
+    }
+    if (formData.domicilioEntrega.localidad === '') {
+      errors.localidadEntrega = 'El campo Localidad es obligatorio.'
+    }
+    if (formData.domicilioEntrega.provincia === '') {
+      errors.provinciaEntrega = 'El campo Provincia es obligatorio.'
+    }
+    if (formData.fechaRetiro === 'date') {
+      errors.fechaRetiro = 'Se debe seleccionar la fecha de retiro.'
+    }
+    if (formData.fechaEntrega === 'date') {
+      errors.fechaEntrega = 'Se debe seleccionar la fecha de entrega.'
+    }
+
     setFormErrors(errors)
 
+    console.log('Datos de formulario: ', formData)
     // Si hay errores, no enviar el formulario
     if (Object.values(errors).some((error) => error !== '')) {
+      console.log('entro en el if de errores')
       return
     }
 
@@ -263,108 +262,13 @@ const FormularioPedidoEnvio = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
-                Domicilio de Entrega
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-            <Accordion>
-                <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenEntrega}>
-                  {accordionEntrega ? '▲' : '▼'}
-                </AccordionSummary>
-                <AccordionDetails>
-            <Grid item xs={12}>
-              <TextField
-                label="Calle"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.calle"
-                value={formData.domicilioEntrega.calle}
-                onChange={handleInputChange}
-                error={formErrors.domicilioEntrega?.calle}
-                helperText={formErrors.domicilioEntrega?.calle}
-                color={LIGHT_BLUE_COLOR}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Numero"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.numero"
-                value={formData.domicilioEntrega.numero}
-                onChange={handleInputChange}
-                error={!!formErrors.domicilioEntrega.numero}
-                helperText={formErrors.domicilioEntrega.numero}
-                color={LIGHT_BLUE_COLOR}
-                type='number'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Localidad"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.localidad"
-                value={formData.domicilioEntrega.localidad}
-                error={!!formErrors.domicilioEntrega.localidad}
-                helperText={formErrors.domicilioEntrega.localidad}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Provincia"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.provincia"
-                value={formData.domicilioEntrega.provincia}
-                error={!!formErrors.domicilioEntrega.provincia}
-                helperText={formErrors.domicilioEntrega.provincia}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-              />
-            </Grid>
-            <Grid item xs={12} marginY='0.85em'>
-              <TextField
-                label="Referencia (opcional)"
-                variant="outlined"
-                multiline
-                fullWidth
-                name="domicilioEntrega.referencia"
-                value={formData.domicilioEntrega.referencia}
-                error={!!formErrors.domicilioEntrega.referencia}
-                helperText={formErrors.domicilioEntrega.referencia}
-                onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
-                />
-            </Grid>
-            <Grid item xs={12} marginY='0.75em'>
-              <TextField
-                label="Fecha de Entrega"
-                variant="outlined"
-                type="date"
-                fullWidth
-                name="fechaEntrega"
-                value={formData.fechaEntrega}
-                onChange={handleInputChange}
-                error={!!formErrors.fechaEntrega}
-                helperText={formErrors.fechaEntrega}
-                color={LIGHT_BLUE_COLOR}
-                />
-            </Grid>
-            </AccordionDetails>
-            </Accordion>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
                 Domicilio de Retiro
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <Accordion>
                 <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenRetiro}>
-                  {accordionRetiro ? '▲' : '▼'}
+                  {accordionRetiro ? <KeyboardArrowUpIcon></KeyboardArrowUpIcon> : <KeyboardArrowDownIcon></KeyboardArrowDownIcon>}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid item xs={12}>
@@ -376,8 +280,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.calle}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
-                      error={!!formErrors.domicilioRetiro.calle}
-                      helperText={formErrors.domicilioRetiro.calle}
+                      error={!!formErrors.calleRetiro}
+                      helperText={formErrors.calleRetiro}
                       />
                   </Grid >
                   <Grid item xs={12}>
@@ -387,8 +291,8 @@ const FormularioPedidoEnvio = () => {
                       fullWidth
                       name="domicilioRetiro.numero"
                       value={formData.domicilioRetiro.numero}
-                      error={!!formErrors.domicilioRetiro.numero}
-                      helperText={formErrors.domicilioRetiro.numero}
+                      error={!!formErrors.numeroRetiro}
+                      helperText={formErrors.numeroRetiro}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
                       type='number'
@@ -403,8 +307,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.localidad}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
-                      error={!!formErrors.domicilioRetiro.localidad}
-                      helperText={formErrors.domicilioRetiro.localidad}
+                      error={!!formErrors.localidadRetiro}
+                      helperText={formErrors.localidadRetiro}
                       />
                   </Grid>
                   <Grid item xs={12}>
@@ -416,8 +320,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.provincia}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
-                      error={!!formErrors.domicilioRetiro.provincia}
-                      helperText={formErrors.domicilioRetiro.provincia}
+                      error={!!formErrors.provinciaRetiro}
+                      helperText={formErrors.provinciaRetiro}
                       />
                   </Grid>
                   <Grid item xs={12} marginY='0.85em'>
@@ -448,6 +352,101 @@ const FormularioPedidoEnvio = () => {
                 </AccordionDetails>
               </Accordion>
             </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
+                Domicilio de Entrega
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+            <Accordion>
+                <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenEntrega}>
+                  {accordionEntrega ? <KeyboardArrowUpIcon></KeyboardArrowUpIcon> : <KeyboardArrowDownIcon></KeyboardArrowDownIcon>}
+                </AccordionSummary>
+                <AccordionDetails>
+            <Grid item xs={12}>
+              <TextField
+                label="Calle"
+                variant="standard"
+                fullWidth
+                name="domicilioEntrega.calle"
+                value={formData.domicilioEntrega.calle}
+                onChange={handleInputChange}
+                error={!!formErrors.calleEntrega}
+                helperText={formErrors.calleEntrega}
+                color={LIGHT_BLUE_COLOR}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Numero"
+                variant="standard"
+                fullWidth
+                name="domicilioEntrega.numero"
+                value={formData.domicilioEntrega.numero}
+                onChange={handleInputChange}
+                error={!!formErrors.numeroEntrega}
+                helperText={formErrors.numeroEntrega}
+                color={LIGHT_BLUE_COLOR}
+                type='number'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Localidad"
+                variant="standard"
+                fullWidth
+                name="domicilioEntrega.localidad"
+                value={formData.domicilioEntrega.localidad}
+                error={!!formErrors.localidadEntrega}
+                helperText={formErrors.localidadEntrega}
+                onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Provincia"
+                variant="standard"
+                fullWidth
+                name="domicilioEntrega.provincia"
+                value={formData.domicilioEntrega.provincia}
+                error={!!formErrors.provinciaEntrega}
+                helperText={formErrors.provinciaEntrega}
+                onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
+              />
+            </Grid>
+            <Grid item xs={12} marginY='0.85em'>
+              <TextField
+                label="Referencia (opcional)"
+                variant="outlined"
+                multiline
+                fullWidth
+                name="domicilioEntrega.referencia"
+                value={formData.domicilioEntrega.referencia}
+                error={!!formErrors.referenciaEntrega}
+                helperText={formErrors.referenciaEntrega}
+                onChange={handleInputChange}
+                color={LIGHT_BLUE_COLOR}
+                />
+            </Grid>
+            <Grid item xs={12} marginY='0.75em'>
+              <TextField
+                label="Fecha de Entrega"
+                variant="outlined"
+                type="date"
+                fullWidth
+                name="fechaEntrega"
+                value={formData.fechaEntrega}
+                onChange={handleInputChange}
+                error={!!formErrors.fechaEntrega}
+                helperText={formErrors.fechaEntrega}
+                color={LIGHT_BLUE_COLOR}
+                />
+            </Grid>
+            </AccordionDetails>
+            </Accordion>
+            </Grid>
             <Grid item xs={12} >
               <VisuallyHiddenInput setSelectedFile={setSelectedFile} />
             </Grid>
@@ -466,7 +465,8 @@ const FormularioPedidoEnvio = () => {
                 filter: 'brightness(1.1)'
               },
               '&:active': {
-                outline: 0
+                outline: 0,
+                border: 'none'
               }
             }}
             style={
