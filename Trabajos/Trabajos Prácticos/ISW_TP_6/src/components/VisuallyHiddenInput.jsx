@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
 import PropTypes from 'prop-types'
 import { lightBlue } from '@mui/material/colors'
+import Alert from '@mui/material/Alert'
 
 const LIGHT_BLUE_COLOR = lightBlue[500300]
 const VisuallyHiddenInput = styled('input')({
@@ -27,6 +28,7 @@ InputFileUpload.propTypes = {
 }
 
 export default function InputFileUpload ({ setSelectedFile2 }) {
+  const [showAlert, setShowAlert] = React.useState(false)
   const [selectedFiles, setSelectedFiles] = React.useState([])
 
   const handleImageChange = (event) => {
@@ -35,8 +37,13 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
     const newFiles = Array.from(files).filter((file) =>
       acceptedTypes.includes(file.type)
     )
-    setSelectedFiles([...selectedFiles, ...newFiles])
-    setSelectedFile2([...selectedFiles, ...newFiles])
+    if (newFiles.length !== files.length) {
+      setShowAlert(true)
+    } else {
+      setSelectedFiles([...selectedFiles, ...newFiles])
+      setSelectedFile2([...selectedFiles, ...newFiles])
+      setShowAlert(false)
+    }
   }
 
   const handleRemoveImage = (fileToRemove) => {
@@ -68,6 +75,9 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
         Cargar imagen
         <VisuallyHiddenInput type="file" onChange={handleImageChange} />
       </Button>
+      {showAlert && (
+        <Alert severity="error" onClose={() => setShowAlert(false)}>Solo se pueden subir imágenes en formato JPG o PNG.</Alert>
+      )}
       {selectedFiles.length > 0 && selectedFiles.map((file, index) => (
         <div key={index}>
           <CloudDoneIcon color="success" />
