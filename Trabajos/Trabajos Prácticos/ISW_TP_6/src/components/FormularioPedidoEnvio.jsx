@@ -37,6 +37,7 @@ const FormularioPedidoEnvio = () => {
   const [openConfirm, setOpenConfirm] = React.useState(false)
   const [openSuccess, setOpenSuccess] = React.useState(false)
   const [accordionRetiro, setAccordionRetiro] = React.useState(false)
+  const [accordionEntrega, setAccordionEntrega] = React.useState(false)
 
   // Estado para almacenar los errores de validación
   const [formErrors, setFormErrors] = useState({})
@@ -74,14 +75,18 @@ const FormularioPedidoEnvio = () => {
   const handleOpenRetiro = () => {
     setAccordionRetiro(!accordionRetiro)
   }
+  // Manejar el accordion
+  const handleOpenEntrega = () => {
+    setAccordionEntrega(!accordionRetiro)
+  }
 
   // Manejar el envío del formulario
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const errors = { ...formErrors }
+    // const errors = { ...formErrors }
 
-    // Verificar si el campo "Nombre" está vacío
+    /* // Verificar si el campo "Nombre" está vacío
     if (formData.nombre.trim() === '') {
       errors.nombre = 'El campo "Nombre" no puede estar vacío'
     }
@@ -94,7 +99,7 @@ const FormularioPedidoEnvio = () => {
     // Si hay errores, no enviar el formulario
     if (Object.values(errors).some((error) => error !== '')) {
       return
-    }
+    } */
 
     setOpenConfirm(true)
   }
@@ -114,7 +119,7 @@ const FormularioPedidoEnvio = () => {
       // Enviar datos a la API
       setOpenBackdrop(true)
       // Simular un tiempo de espera
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       // Manejar la respuesta de la API
       setOpenBackdrop(false)
       setOpenSuccess(true)
@@ -196,6 +201,12 @@ const FormularioPedidoEnvio = () => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
+            <Accordion>
+                <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenEntrega}>
+                  {accordionEntrega ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                </AccordionSummary>
+                <AccordionDetails>
+            <Grid item xs={12}>
               <TextField
                 label="Calle"
                 variant="standard"
@@ -264,6 +275,9 @@ const FormularioPedidoEnvio = () => {
                 helperText={formErrors.fechaEntrega}
                 color={LIGHT_BLUE_COLOR}
                 />
+            </Grid>
+            </AccordionDetails>
+            </Accordion>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
@@ -383,10 +397,10 @@ const FormularioPedidoEnvio = () => {
         onClose={() => setOpenConfirm(false)}
         aria-labelledby="confirm-dialog"
       >
-        <DialogTitle id="confirm-dialog">Confirmar Registro</DialogTitle>
+        <DialogTitle id="confirm-dialog">Confirmar Pedido de Envio</DialogTitle>
         <DialogContent>
           <DialogContentText id="confirm-dialog-description">
-            ¿Está seguro que quiere confirmar el registro?
+            ¿Está seguro que quiere confirmar el Pedido de Envio?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -403,7 +417,7 @@ const FormularioPedidoEnvio = () => {
         <DialogTitle id="success-dialog">Registro Exitoso</DialogTitle>
         <DialogContent>
           <DialogContentText id="success-dialog-description">
-            El cliente se registró exitosamente.
+            El Pedido de Envio se registró exitosamente.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

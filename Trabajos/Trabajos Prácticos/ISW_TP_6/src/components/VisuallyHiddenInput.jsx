@@ -7,7 +7,9 @@ import CloudDoneIcon from '@mui/icons-material/CloudDone'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
 import PropTypes from 'prop-types'
+import { lightBlue } from '@mui/material/colors'
 
+const LIGHT_BLUE_COLOR = lightBlue[500300]
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -48,10 +50,10 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
         component="label"
         variant="contained"
         startIcon={<CloudUploadIcon />}
+        color={LIGHT_BLUE_COLOR}
         sx={{
-          backgroundColor: '#dda15e',
           '&:hover': {
-            backgroundColor: '#D09F5C'
+            backgroundColor: '#4D9FE7'
           }
         }}
         style={
