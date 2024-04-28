@@ -32,6 +32,26 @@ const INITIAL_FORM_STATE = {
   foto: 'string'
 }
 
+const INITIAL_ERRORS_STATE = {
+  tipoDeCarga: '',
+  domicilioRetiro: {
+    calle: '',
+    numero: '',
+    localidad: '',
+    provincia: '',
+    referencia: ''
+  },
+  domicilioEntrega: {
+    calle: '',
+    numero: '',
+    localidad: '',
+    provincia: '',
+    referencia: ''
+  },
+  fechaRetiro: '',
+  fechaEntrega: ''
+}
+
 const LIGHT_BLUE_COLOR = lightBlue[500300]
 const FormularioPedidoEnvio = () => {
   const navigate = useNavigate()
@@ -44,7 +64,7 @@ const FormularioPedidoEnvio = () => {
   const [accordionEntrega, setAccordionEntrega] = React.useState(false)
 
   // Estado para almacenar los errores de validación
-  const [formErrors, setFormErrors] = useState({})
+  const [formErrors, setFormErrors] = useState(INITIAL_ERRORS_STATE)
 
   // Estado para el backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false)
@@ -55,13 +75,13 @@ const FormularioPedidoEnvio = () => {
   // Manejar cambios en los campos del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    const errors = { ...formErrors }
-    if (name === 'tipoDeCarga' && value === '') {
-      errors.tipoDeCarga = '*'
-    } else {
-      errors.tipoDeCarga = ''
-    }
-    setFormErrors(errors)
+    // const errors = { ...formErrors }
+    // if (name === 'tipoDeCarga' && value === '') {
+    //   errors.tipoDeCarga = '*'
+    // } else {
+    //   errors.tipoDeCarga = ''
+    // }
+    // setFormErrors(errors)
     if (name.includes('.')) {
       const [firstProp, secondProp] = name.split('.')
       setFormData({
@@ -106,12 +126,39 @@ const FormularioPedidoEnvio = () => {
 
     const fechaActualEnFormatoDeseado = `${añoActual}-${mesActual}-${diaActual}`
 
-    console.log('Entrega:', fechaEntrega, '\nRetiro:', fechaRetiro, '\nActual:', fechaActualEnFormatoDeseado)
+    // console.log('Entrega:', fechaEntrega, '\nRetiro:', fechaRetiro, '\nActual:', fechaActualEnFormatoDeseado)
 
-    console.log(fechaEntrega > fechaRetiro)
-    console.log(fechaEntrega > fechaActualEnFormatoDeseado)
+    // console.log(fechaEntrega > fechaRetiro)
+    // console.log(fechaEntrega > fechaActualEnFormatoDeseado)
     if (formData.tipoDeCarga === '') {
       errors.tipoDeCarga = 'Debe seleccionar una opción en "Tipo de Carga"'
+    }
+    errors.domicilioRetiro = {}
+    errors.domicilioEntrega = {}
+
+    if (formData?.domicilioRetiro?.calle === '') {
+      errors.domicilioRetiro.calle = 'El campo Calle es obligatorio.'
+    }
+    if (formData.domicilioRetiro.numero === '') {
+      errors.domicilioRetiro.numero = 'El campo Numero es obligatorio.'
+    }
+    if (formData.domicilioRetiro.localidad === '') {
+      errors.domicilioRetiro.localidad = 'El campo Localidad es obligatorio.'
+    }
+    if (formData.domicilioRetiro.provincia === '') {
+      errors.domicilioRetiro.provincia = 'El campo Provincia es obligatorio.'
+    }
+    if (formData?.domicilioEntrega?.calle === '') {
+      errors.domicilioEntrega.calle = 'El campo Calle es obligatorio.'
+    }
+    if (formData.domicilioEntrega.numero === '') {
+      errors.domicilioEntrega.numero = 'El campo Numero es obligatorio.'
+    }
+    if (formData.domicilioEntrega.localidad === '') {
+      errors.domicilioEntrega.localidad = 'El campo Localidad es obligatorio.'
+    }
+    if (formData.domicilioEntrega.provincia === '') {
+      errors.domicilioEntrega.provincia = 'El campo Provincia es obligatorio.'
     }
 
     if (fechaRetiro < fechaActualEnFormatoDeseado) {
@@ -126,6 +173,8 @@ const FormularioPedidoEnvio = () => {
       errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
     }
 
+    console.log(formData)
+    console.log(errors)
     setFormErrors(errors)
 
     // Si hay errores, no enviar el formulario
@@ -231,6 +280,8 @@ const FormularioPedidoEnvio = () => {
                 name="domicilioEntrega.calle"
                 value={formData.domicilioEntrega.calle}
                 onChange={handleInputChange}
+                error={formErrors.domicilioEntrega?.calle}
+                helperText={formErrors.domicilioEntrega?.calle}
                 color={LIGHT_BLUE_COLOR}
               />
             </Grid>
@@ -242,6 +293,8 @@ const FormularioPedidoEnvio = () => {
                 name="domicilioEntrega.numero"
                 value={formData.domicilioEntrega.numero}
                 onChange={handleInputChange}
+                error={!!formErrors.domicilioEntrega.numero}
+                helperText={formErrors.domicilioEntrega.numero}
                 color={LIGHT_BLUE_COLOR}
                 type='number'
               />
@@ -253,6 +306,8 @@ const FormularioPedidoEnvio = () => {
                 fullWidth
                 name="domicilioEntrega.localidad"
                 value={formData.domicilioEntrega.localidad}
+                error={!!formErrors.domicilioEntrega.localidad}
+                helperText={formErrors.domicilioEntrega.localidad}
                 onChange={handleInputChange}
                 color={LIGHT_BLUE_COLOR}
               />
@@ -264,6 +319,8 @@ const FormularioPedidoEnvio = () => {
                 fullWidth
                 name="domicilioEntrega.provincia"
                 value={formData.domicilioEntrega.provincia}
+                error={!!formErrors.domicilioEntrega.provincia}
+                helperText={formErrors.domicilioEntrega.provincia}
                 onChange={handleInputChange}
                 color={LIGHT_BLUE_COLOR}
               />
@@ -276,6 +333,8 @@ const FormularioPedidoEnvio = () => {
                 fullWidth
                 name="domicilioEntrega.referencia"
                 value={formData.domicilioEntrega.referencia}
+                error={!!formErrors.domicilioEntrega.referencia}
+                helperText={formErrors.domicilioEntrega.referencia}
                 onChange={handleInputChange}
                 color={LIGHT_BLUE_COLOR}
                 />
@@ -317,6 +376,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.calle}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
+                      error={!!formErrors.domicilioRetiro.calle}
+                      helperText={formErrors.domicilioRetiro.calle}
                       />
                   </Grid >
                   <Grid item xs={12}>
@@ -326,6 +387,8 @@ const FormularioPedidoEnvio = () => {
                       fullWidth
                       name="domicilioRetiro.numero"
                       value={formData.domicilioRetiro.numero}
+                      error={!!formErrors.domicilioRetiro.numero}
+                      helperText={formErrors.domicilioRetiro.numero}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
                       type='number'
@@ -340,6 +403,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.localidad}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
+                      error={!!formErrors.domicilioRetiro.localidad}
+                      helperText={formErrors.domicilioRetiro.localidad}
                       />
                   </Grid>
                   <Grid item xs={12}>
@@ -351,6 +416,8 @@ const FormularioPedidoEnvio = () => {
                       value={formData.domicilioRetiro.provincia}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
+                      error={!!formErrors.domicilioRetiro.provincia}
+                      helperText={formErrors.domicilioRetiro.provincia}
                       />
                   </Grid>
                   <Grid item xs={12} marginY='0.85em'>
