@@ -2,68 +2,145 @@ import React, { useState } from 'react'
 import {
   Paper,
   Container,
-  TextField,
   Grid,
   Typography,
+  TextField,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
   Button,
+  Divider,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from '@mui/material'
+
+import SimpleBackdrop from './SimpleBackdrop'
+import VisuallyHiddenInput from './VisuallyHiddenInput'
 import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
-import SimpleBackdrop from './SimpleBackdrop'
+import { lightBlue } from '@mui/material/colors'
+
+const LIGHT_BLUE_COLOR = lightBlue[500300]
 
 const Formulario2 = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = React.useState({
-    tipoCarga: '',
+
+  const [formData, setFormData] = useState({
+    tipoDeCarga: '',
     domicilioRetiro: {
-      calleNumero: '',
+      calle: '',
+      numero: '',
       localidad: '',
       provincia: '',
-      referencia: ''
+      referencia: '' // Referencia opcional
+    },
+    domicilioEntrega: {
+      calle: '',
+      numero: '',
+      localidad: '',
+      provincia: '',
+      referencia: '' // Referencia opcional
     },
     fechaRetiro: '',
-    domicilioEntrega: {
-      calleNumero: '',
-      localidad: '',
-      provincia: '',
-      referencia: ''
-    },
     fechaEntrega: '',
-    fotos: [] // Array para almacenar las fotos
+    descripcion: '',
+    email: '',
+    foto: null // Sin foto por defecto
   })
+
+  const [selectedFile, setSelectedFile] = useState(null)
   const [openConfirm, setOpenConfirm] = useState(false)
   const [openSuccess, setOpenSuccess] = useState(false)
+  const [accordionRetiro, setAccordionRetiro] = useState(false)
+  const [accordionEntrega, setAccordionEntrega] = useState(false)
   const [formErrors, setFormErrors] = useState({})
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const [openError, setOpenError] = useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setFormData({
-      ...formData,
-      [name]: value
-    })
+    const errors = { ...formErrors }
+    setFormErrors(errors)
+    if (name.includes('.')) {
+      const [firstProp, secondProp] = name.split('.')
+      setFormData({
+        ...formData,
+        [firstProp]: {
+          ...formData[firstProp],
+          [secondProp]: value
+        }
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      })
+    }
+  }
+
+  const handleOpenRetiro = () => {
+    setAccordionRetiro(!accordionRetiro)
+  }
+
+  const handleOpenEntrega = () => {
+    setAccordionEntrega(!accordionEntrega)
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const errors = {}
 
-    // Validaciones de los campos
-    if (formData.tipoCarga.trim() === '') {
-      errors.tipoCarga = 'Debe seleccionar un tipo de carga'
+    const errors = { ...formErrors }
+
+    // Validación de campos obligatorios
+    const mandatoryFields = [
+      'tipoDeCarga',
+      'domicilioRetiro.calle',
+      'domicilioRetiro.numero',
+      'domicilioRetiro.localidad',
+      'domicilioRetiro.provincia',
+      'domicilioEntrega.calle',
+      'domicilioEntrega.numero',
+      'domicilioEntrega.localidad',
+      'domicilioEntrega.provincia',
+      'fechaRetiro',
+      'fechaEntrega',
+      'descripcion',
+      'email'
+    ]
+
+    mandatoryFields.forEach((field) => {
+      if (formData[field] === '') {
+        errors[field] = `El campo ${field} es obligatorio`
+      }
+    })
+
+    // Validación de fechas
+    const currentDate = new Date()
+    const fechaRetiro = new Date(formData.fechaRetiro)
+    const fechaEntrega = new Date(formData.fechaEntrega)
+
+    if (fechaRetiro < currentDate) {
+      errors['fechaRetiro'] = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
     }
-    // Validar otros campos requeridos según tus necesidades
+
+    if (fechaEntrega < currentDate) {
+      errors['fechaEntrega'] = 'La fecha de entrega debe ser mayor o igual a la fecha actual'
+    }
+
+    if (fechaEntrega < fechaRetiro) {
+      errors['fechaEntrega'] = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
+    }
+
+    // Removemos el campo de referencia de los errores
+    delete errors['domicilioRetiro.referencia']
+    delete errors['domicilioEntrega.referencia']
 
     setFormErrors(errors)
 
@@ -77,31 +154,40 @@ const Formulario2 = () => {
   const handleConfirm = async () => {
     setOpenConfirm(false)
     setOpenBackdrop(true)
+
     try {
-      // Aquí enviarías los datos al servidor
-      console.log(formData)
-      // Simular un tiempo de espera
+      const formattedFormData = {
+        ...formData,
+        foto: selectedFile || null
+      }
+
+      setOpenBackdrop(true)
       await new Promise((resolve) => setTimeout(resolve, 2000))
       setOpenBackdrop(false)
       setOpenSuccess(true)
       setFormData({
-        tipoCarga: '',
+        tipoDeCarga: '',
         domicilioRetiro: {
-          calleNumero: '',
+          calle: '',
+          numero: '',
+          localidad: '',
+          provincia: '',
+          referencia: ''
+        },
+        domicilioEntrega: {
+          calle: '',
+          numero: '',
           localidad: '',
           provincia: '',
           referencia: ''
         },
         fechaRetiro: '',
-        domicilioEntrega: {
-          calleNumero: '',
-          localidad: '',
-          provincia: '',
-          referencia: ''
-        },
         fechaEntrega: '',
-        fotos: []
+        descripcion: '',
+        email: '',
+        foto: null
       })
+      setSelectedFile(null)
       setOpenError(false)
     } catch (error) {
       console.error(error)
@@ -110,174 +196,251 @@ const Formulario2 = () => {
     }
   }
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    setFormData({
-      ...formData,
-      fotos: [file]
-    })
-  }
-
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: '45px' }}>
-      <Paper elevation={3} sx={{ backgroundColor: 'white', boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '20px' }}>
+      <Paper
+        elevation={3}
+        sx={{
+          backgroundColor: 'white',
+          boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
+          padding: '20px'
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Formulario de Pedido de Envío
+              <Typography variant="h3" gutterBottom fontFamily={'Rubik, sans-serif'} fontSize='1.75em'>
+                Publicar Pedido de Envío
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} textAlign={'left'}>
               <FormControl variant="outlined" fullWidth>
                 <InputLabel>Tipo de Carga *</InputLabel>
                 <Select
+                  style={{ fontFamily: 'Rubik, sans-serif' }}
                   label="Tipo de Carga"
-                  name="tipoCarga"
-                  value={formData.tipoCarga}
-                  onChange={handleInputChange}
-                  error={!!formErrors.tipoCarga}
+                  variant='outlined'
+                  name='tipoDeCarga'
+                  fullWidth
+                  value={formData.tipoDeCarga}
+                  onChange={e => handleInputChange(e)}
+                  color={LIGHT_BLUE_COLOR}
                 >
-                  <MenuItem value="documentacion">Documentación</MenuItem>
-                  <MenuItem value="paquete">Paquete</MenuItem>
-                  <MenuItem value="granos">Granos</MenuItem>
-                  <MenuItem value="hacienda">Hacienda</MenuItem>
+                  <MenuItem style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={'documentacion'}>Documentación</MenuItem>
+                  <MenuItem style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={'paquete'}>Paquete</MenuItem>
+                  <MenuItem style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={'granos'}>Granos</MenuItem>
+                  <MenuItem style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={'hacienda'}>Hacienda</MenuItem>
                 </Select>
-                <FormHelperText error={!!formErrors.tipoCarga}>{formErrors.tipoCarga}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
                 Domicilio de Retiro
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Calle y número"
-                variant="outlined"
-                fullWidth
-                name="domicilioRetiro.calleNumero"
-                value={formData.domicilioRetiro.calleNumero}
-                onChange={handleInputChange}
-              />
+              <Accordion expanded={accordionRetiro} onChange={handleOpenRetiro}>
+                <AccordionSummary id="panel-header-retiro" aria-controls="panel-content-retiro">
+                  {accordionRetiro ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Calle"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioRetiro.calle"
+                        value={formData.domicilioRetiro.calle}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Número"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioRetiro.numero"
+                        value={formData.domicilioRetiro.numero}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Localidad"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioRetiro.localidad"
+                        value={formData.domicilioRetiro.localidad}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Provincia"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioRetiro.provincia"
+                        value={formData.domicilioRetiro.provincia}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Referencia (opcional)"
+                        variant="outlined"
+                        multiline
+                        fullWidth
+                        name="domicilioRetiro.referencia"
+                        value={formData.domicilioRetiro.referencia}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12} marginY='0.75em'>
+                      <TextField
+                        label="Fecha de Retiro"
+                        variant="outlined"
+                        type="date"
+                        fullWidth
+                        name="fechaRetiro"
+                        value={formData.fechaRetiro}
+                        onChange={handleInputChange}
+                        error={!!formErrors.fechaRetiro}
+                        helperText={formErrors.fechaRetiro}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Localidad"
-                variant="outlined"
-                fullWidth
-                name="domicilioRetiro.localidad"
-                value={formData.domicilioRetiro.localidad}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Provincia"
-                variant="outlined"
-                fullWidth
-                name="domicilioRetiro.provincia"
-                value={formData.domicilioRetiro.provincia}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Referencia (opcional)"
-                variant="outlined"
-                fullWidth
-                name="domicilioRetiro.referencia"
-                value={formData.domicilioRetiro.referencia}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Fecha de Retiro"
-                variant="outlined"
-                type="date"
-                fullWidth
-                name="fechaRetiro"
-                value={formData.fechaRetiro}
-                onChange={handleInputChange}
-                error={!!formErrors.fechaRetiro}
-                helperText={formErrors.fechaRetiro}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom fontFamily={'Rubik, sans-serif'}>
                 Domicilio de Entrega
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Calle y número"
-                variant="outlined"
-                fullWidth
-                name="domicilioEntrega.calleNumero"
-                value={formData.domicilioEntrega.calleNumero}
-                onChange={handleInputChange}
-              />
+              <Accordion expanded={accordionEntrega} onChange={handleOpenEntrega}>
+                <AccordionSummary id="panel-header-entrega" aria-controls="panel-content-entrega">
+                  {accordionEntrega ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Calle"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioEntrega.calle"
+                        value={formData.domicilioEntrega.calle}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Número"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioEntrega.numero"
+                        value={formData.domicilioEntrega.numero}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Localidad"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioEntrega.localidad"
+                        value={formData.domicilioEntrega.localidad}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Provincia"
+                        variant="standard"
+                        fullWidth
+                        name="domicilioEntrega.provincia"
+                        value={formData.domicilioEntrega.provincia}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Referencia (opcional)"
+                        variant="outlined"
+                        multiline
+                        fullWidth
+                        name="domicilioEntrega.referencia"
+                        value={formData.domicilioEntrega.referencia}
+                        onChange={handleInputChange}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                    <Grid item xs={12} marginY='0.75em'>
+                      <TextField
+                        label="Fecha de Entrega"
+                        variant="outlined"
+                        type="date"
+                        fullWidth
+                        name="fechaEntrega"
+                        value={formData.fechaEntrega}
+                        onChange={handleInputChange}
+                        error={!!formErrors.fechaEntrega}
+                        helperText={formErrors.fechaEntrega}
+                        color={LIGHT_BLUE_COLOR}
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Localidad"
-                variant="outlined"
-                fullWidth
-                name="domicilioEntrega.localidad"
-                value={formData.domicilioEntrega.localidad}
-                onChange={handleInputChange}
-              />
+              <VisuallyHiddenInput setSelectedFile={setSelectedFile} />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Provincia"
-                variant="outlined"
-                fullWidth
-                name="domicilioEntrega.provincia"
-                value={formData.domicilioEntrega.provincia}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Referencia (opcional)"
-                variant="outlined"
-                fullWidth
-                name="domicilioEntrega.referencia"
-                value={formData.domicilioEntrega.referencia}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Fecha de Entrega"
-                variant="outlined"
-                type="date"
-                fullWidth
-                name="fechaEntrega"
-                value={formData.fechaEntrega}
-                onChange={handleInputChange}
-                error={!!formErrors.fechaEntrega}
-                helperText={formErrors.fechaEntrega}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </Grid>
-            {/* Agregar más campos si es necesario */}
+            <Divider />
           </Grid>
-          <Button type="submit" variant="contained" sx={{ marginTop: '16px', backgroundColor: '#6fbe56', '&:hover': { backgroundColor: '#6fbe56', filter: 'brightness(1.1)' } }} fullWidth>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              marginTop: '16px',
+              backgroundColor: '#6fbe56',
+              '&:hover': {
+                backgroundColor: '#6fbe56',
+                filter: 'brightness(1.1)'
+              }
+            }}
+            style={{
+              fontFamily: 'Rubik, sans-serif',
+              fontWeight: '500',
+              fontSize: '0.95em'
+            }}
+            fullWidth
+          >
             Registrar
           </Button>
           <SimpleBackdrop open={openBackdrop} />
         </form>
       </Paper>
-      <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)} aria-labelledby="confirm-dialog">
+      <Dialog
+        open={openConfirm}
+        onClose={() => setOpenConfirm(false)}
+        aria-labelledby="confirm-dialog"
+      >
         <DialogTitle id="confirm-dialog">Confirmar Registro</DialogTitle>
         <DialogContent>
           <DialogContentText id="confirm-dialog-description">
@@ -293,15 +456,22 @@ const Formulario2 = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Dialog open={openSuccess} onClose={() => setOpenSuccess(false)}>
         <DialogTitle id="success-dialog">Registro Exitoso</DialogTitle>
         <DialogContent>
           <DialogContentText id="success-dialog-description">
-            El pedido se registró exitosamente.
+            El cliente se registró exitosamente.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { setOpenSuccess(false); navigate('/home') }} color="primary">
+          <Button
+            onClick={() => {
+              setOpenSuccess(false)
+              navigate('/home')
+            }}
+            color="primary"
+          >
             Ok
           </Button>
         </DialogActions>
