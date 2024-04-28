@@ -16,9 +16,9 @@ const Header = () => {
         marginBottom: '10%'
       }}
     >
-      <Box display="flex" justifyContent="left" alignItems="center" padding="2em" position='relative' >
-          <div style={ { position: 'absolute', width: '4.5em', height: '35px', backgroundColor: '#ffffff', borderRadius: '50%', marginLeft: '3.75%', zIndex: -1 } } />
-          <img alt='tangoAppLogo' src={image} style={{ maxWidth: '100px', height: 'auto', color: 'darkgrey', marginLeft: '2.5%' }}/>
+      <Box display="flex" justifyContent="center" alignItems="center" padding="2em" position='relative' >
+          <div style={ { position: 'absolute', width: '4.5em', height: '35px', backgroundColor: '#ffffff', borderRadius: '50%', zIndex: -1 } } />
+          <img alt='tangoAppLogo' src={image} style={{ maxWidth: '100px', height: 'auto', color: 'darkgrey' }}/>
       </Box>
     </AppBar>
   )

@@ -5,9 +5,9 @@ import SimpleBackdrop from './SimpleBackdrop'
 import VisuallyHiddenInput from './VisuallyHiddenInput'
 import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
-import { lightBlue } from '@mui/material/colors';
+import { lightBlue } from '@mui/material/colors'
 
-const LIGHT_BLUE_COLOR = lightBlue[500300];
+const LIGHT_BLUE_COLOR = lightBlue[500300]
 const FormularioPedidoEnvio = () => {
   const navigate = useNavigate()
   // Estados para almacenar los datos del formulario
@@ -38,8 +38,6 @@ const FormularioPedidoEnvio = () => {
   const [openSuccess, setOpenSuccess] = React.useState(false)
   const [accordionRetiro, setAccordionRetiro] = React.useState(false)
 
-
-
   // Estado para almacenar los errores de validación
   const [formErrors, setFormErrors] = useState({})
 
@@ -55,7 +53,7 @@ const FormularioPedidoEnvio = () => {
     const errors = { ...formErrors }
     setFormErrors(errors)
     if (name.includes('.')) {
-      const [firstProp, secondProp] = name.split('.');
+      const [firstProp, secondProp] = name.split('.')
       setFormData({
         ...formData,
         [firstProp]: {
@@ -72,9 +70,10 @@ const FormularioPedidoEnvio = () => {
   }
   console.log(formData)
 
-  //Manejar el accordion
-  const handleOpenRetiro = () =>{
-    setAccordionRetiro(!accordionRetiro)}
+  // Manejar el accordion
+  const handleOpenRetiro = () => {
+    setAccordionRetiro(!accordionRetiro)
+  }
 
   // Manejar el envío del formulario
   const handleSubmit = async (event) => {
@@ -274,7 +273,7 @@ const FormularioPedidoEnvio = () => {
             <Grid item xs={12}>
               <Accordion>
                 <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenRetiro}>
-                  {accordionRetiro? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                  {accordionRetiro ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid item xs={12}>
@@ -347,7 +346,7 @@ const FormularioPedidoEnvio = () => {
                     />
                   </Grid>
                 </AccordionDetails>
-              </Accordion> 
+              </Accordion>
             </Grid>
             <Grid item xs={12} >
               <VisuallyHiddenInput setSelectedFile={setSelectedFile} />
