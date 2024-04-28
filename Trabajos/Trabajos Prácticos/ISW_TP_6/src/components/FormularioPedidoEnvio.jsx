@@ -7,33 +7,36 @@ import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
 import { lightBlue } from '@mui/material/colors'
 import FormHelperText from '@mui/material/FormHelperText'
+import VolverAlInicio from './VolverAlInicio' // Importa el nuevo componente
+
+const INITIAL_FORM_STATE = {
+  tipoDeCarga: '',
+  domicilioRetiro: {
+    calle: '',
+    numero: '',
+    localidad: '',
+    provincia: '',
+    referencia: ''
+  },
+  domicilioEntrega: {
+    calle: '',
+    numero: '',
+    localidad: '',
+    provincia: '',
+    referencia: ''
+  },
+  fechaRetiro: 'date',
+  fechaEntrega: 'date',
+  descripcion: '',
+  email: '',
+  foto: 'string'
+}
 
 const LIGHT_BLUE_COLOR = lightBlue[500300]
 const FormularioPedidoEnvio = () => {
   const navigate = useNavigate()
   // Estados para almacenar los datos del formulario
-  const [formData, setFormData] = useState({
-    tipoDeCarga: '',
-    domicilioRetiro: {
-      calle: '',
-      numero: '',
-      localidad: '',
-      provincia: '',
-      referencia: ''
-    },
-    domicilioEntrega: {
-      calle: '',
-      numero: '',
-      localidad: '',
-      provincia: '',
-      referencia: ''
-    },
-    fechaRetiro: 'date',
-    fechaEntrega: 'date',
-    descripcion: '',
-    email: '',
-    foto: 'string'
-  })
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE)
   const [selectedFile, setSelectedFile] = React.useState(null)
   const [openConfirm, setOpenConfirm] = React.useState(false)
   const [openSuccess, setOpenSuccess] = React.useState(false)
@@ -75,7 +78,7 @@ const FormularioPedidoEnvio = () => {
       })
     }
   }
-  console.log(formData)
+  // console.log(formData)
 
   // Manejar el accordion
   const handleOpenRetiro = () => {
@@ -90,16 +93,39 @@ const FormularioPedidoEnvio = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const errors = { ...formErrors }
+    const errors = {}
 
-    // Verificar si el campo "Nombre" está vacío
-    /* if (formData.nombre.trim() === '') {
-      errors.nombre = 'El campo "Nombre" no puede estar vacío'
-    } */
-    // Verficar si el campo Tipo de carga esta vacio
+    // Validación de fechas
+    const fechaRetiro = formData.fechaRetiro
+    const fechaEntrega = formData.fechaEntrega
+    const currentDate = new Date()
+
+    const añoActual = currentDate.getFullYear()
+    const mesActual = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const diaActual = String(currentDate.getDate()).padStart(2, '0')
+
+    const fechaActualEnFormatoDeseado = `${añoActual}-${mesActual}-${diaActual}`
+
+    console.log('Entrega:', fechaEntrega, '\nRetiro:', fechaRetiro, '\nActual:', fechaActualEnFormatoDeseado)
+
+    console.log(fechaEntrega > fechaRetiro)
+    console.log(fechaEntrega > fechaActualEnFormatoDeseado)
     if (formData.tipoDeCarga === '') {
       errors.tipoDeCarga = 'Debe seleccionar una opción en "Tipo de Carga"'
     }
+
+    if (fechaRetiro < fechaActualEnFormatoDeseado) {
+      errors.fechaRetiro = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
+    }
+
+    if (fechaEntrega < fechaActualEnFormatoDeseado) {
+      errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha actual'
+    }
+
+    if (fechaEntrega < fechaRetiro) {
+      errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
+    }
+
     setFormErrors(errors)
 
     // Si hay errores, no enviar el formulario
@@ -130,28 +156,10 @@ const FormularioPedidoEnvio = () => {
       setOpenBackdrop(false)
       setOpenSuccess(true)
       // limpio los campos
-      setFormData({
-        tipoDeCarga: '',
-        domicilioRetiro: {
-          calleNumero: '',
-          localidad: '',
-          provincia: '',
-          referencia: ''
-        },
-        domicilioEntrega: {
-          calleNumero: '',
-          localidad: '',
-          provincia: '',
-          referencia: ''
-        },
-        fechaRetiro: 'date',
-        fechaEntrega: 'date',
-        descripcion: '',
-        email: '',
-        foto: 'string'
-      })
+      setFormData(INITIAL_FORM_STATE)
       setSelectedFile(null)
       setOpenError(false)
+      setFormErrors({})
     } catch (error) {
       console.error(error)
       setOpenBackdrop(false)
@@ -163,6 +171,7 @@ const FormularioPedidoEnvio = () => {
 
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: '45px' }}>
+      <VolverAlInicio />
       <Paper
         elevation={3}
         sx={{
@@ -211,7 +220,7 @@ const FormularioPedidoEnvio = () => {
             <Grid item xs={12}>
             <Accordion>
                 <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenEntrega}>
-                  {accordionEntrega ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                  {accordionEntrega ? '▲' : '▼'}
                 </AccordionSummary>
                 <AccordionDetails>
             <Grid item xs={12}>
@@ -234,6 +243,7 @@ const FormularioPedidoEnvio = () => {
                 value={formData.domicilioEntrega.numero}
                 onChange={handleInputChange}
                 color={LIGHT_BLUE_COLOR}
+                type='number'
               />
             </Grid>
             <Grid item xs={12}>
@@ -295,7 +305,7 @@ const FormularioPedidoEnvio = () => {
             <Grid item xs={12}>
               <Accordion>
                 <AccordionSummary id="panel-header" aria-controls="panel-content" onClick={handleOpenRetiro}>
-                  {accordionRetiro ? 'Presionar para ver menos' : 'Presionar para ver todos los datos'}
+                  {accordionRetiro ? '▲' : '▼'}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid item xs={12}>
@@ -314,10 +324,11 @@ const FormularioPedidoEnvio = () => {
                       label="Número"
                       variant="standard"
                       fullWidth
-                      name="domicilioRetiro.calleNumero"
+                      name="domicilioRetiro.numero"
                       value={formData.domicilioRetiro.numero}
                       onChange={handleInputChange}
                       color={LIGHT_BLUE_COLOR}
+                      type='number'
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -381,9 +392,14 @@ const FormularioPedidoEnvio = () => {
             sx={{
               marginTop: '16px',
               backgroundColor: '#6fbe56',
+              outline: 'none',
+              border: 'none',
               '&:hover': {
                 backgroundColor: '#6fbe56',
                 filter: 'brightness(1.1)'
+              },
+              '&:active': {
+                outline: 0
               }
             }}
             style={

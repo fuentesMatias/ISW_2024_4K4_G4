@@ -1,16 +1,31 @@
+import React from 'react'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 const Inicio = () => {
   const navigate = useNavigate()
+
   const handleButtonClick = () => {
     navigate('/registrar')
   }
+
   return (
-    <>
-    < p>Inicio</p>
-    <Button onClick={handleButtonClick}>Publicar Pedido de Envio</Button>
-    </>
+    <div style={{ textAlign: 'center', marginTop: '80px' }}>
+      <h1 style={{ fontFamily: 'Arial', marginBottom: '50px', fontWeight: 'bold' }}>Inicio</h1>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleButtonClick}
+        style={{
+          background: 'linear-gradient(336deg, rgba(106,188,249,1) 5%, rgba(117,191,249,1) 52%, rgba(135,230,255,1) 94%)',
+          fontFamily: 'Arial',
+          fontWeight: 'bold'
+        }}
+      >
+        Publicar Pedido de Envío
+      </Button>
+    </div>
   )
 }
+
 export default Inicio

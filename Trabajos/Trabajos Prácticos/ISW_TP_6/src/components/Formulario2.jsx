@@ -26,6 +26,7 @@ import VisuallyHiddenInput from './VisuallyHiddenInput'
 import { useNavigate } from 'react-router-dom'
 import AlertaError from './AlertaError'
 import { lightBlue } from '@mui/material/colors'
+import VolverAlInicio from './VolverAlInicio' // Importa el nuevo componente
 
 const LIGHT_BLUE_COLOR = lightBlue[500300]
 
@@ -124,20 +125,25 @@ const Formulario2 = () => {
     })
 
     // Validación de fechas
-    const fechaRetiro = new Date(formData.fechaRetiro)
-    const fechaEntrega = new Date(formData.fechaEntrega)
+    const fechaRetiro = new Date(Date.parse(formData.fechaRetiro))
+    fechaRetiro.setHours(0, 0, 0, 0)
+    const fechaEntrega = new Date(Date.parse(formData.fechaEntrega))
+    fechaEntrega.setHours(0, 0, 0, 0)
     const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
+
+    console.log(fechaEntrega, fechaRetiro, currentDate)
 
     if (fechaRetiro < currentDate) {
-      errors['fechaRetiro'] = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
+      errors.fechaRetiro = 'La fecha de retiro debe ser mayor o igual a la fecha actual'
     }
 
     if (fechaEntrega < currentDate) {
-      errors['fechaEntrega'] = 'La fecha de entrega debe ser mayor o igual a la fecha actual'
+      errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha actual'
     }
 
     if (fechaEntrega < fechaRetiro) {
-      errors['fechaEntrega'] = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
+      errors.fechaEntrega = 'La fecha de entrega debe ser mayor o igual a la fecha de retiro'
     }
 
     setFormErrors(errors)
@@ -201,6 +207,7 @@ const Formulario2 = () => {
           padding: '20px'
         }}
       >
+        <VolverAlInicio />
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
