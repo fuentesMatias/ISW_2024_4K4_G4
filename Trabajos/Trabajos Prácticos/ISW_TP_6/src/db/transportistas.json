@@ -1,0 +1,20 @@
+[
+    {
+        "nombre":"Exequiel Silvestre",
+        "email":"exesilvestre@gmail.com",
+        "localidad":"Cordoba",
+        "provincia":"Cordoba"
+    },
+    {
+        "nombre":"Federico Mizzau",
+        "email":"federicomizzau.77@gmail.com",
+        "localidad":"Cordoba",
+        "provincia":"Cordoba"
+    },
+    {
+        "nombre":"Lautaro Gregorat",
+        "email":"lautarogregorat@gmail.com",
+        "localidad":"Catamarca",
+        "provincia":"Catamarca"
+    }
+]

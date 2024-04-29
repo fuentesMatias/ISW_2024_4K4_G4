@@ -10,6 +10,10 @@ import FormHelperText from '@mui/material/FormHelperText'
 import VolverAlInicio from './VolverAlInicio' // Importa el nuevo componente
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import enviarMailPedidoDeEnvio from '../helpers/sendMail'
+import transportistas from '../db/transportistas.json'
+
+console.log(transportistas[0])
 
 const INITIAL_FORM_STATE = {
   tipoDeCarga: '',
@@ -195,7 +199,23 @@ const FormularioPedidoEnvio = () => {
         foto: selectedFile || null
       }
       console.log(formattedFormData)
-
+      if (formattedFormData.domicilioRetiro.localidad.toLowerCase() === 'cordoba' && formattedFormData.domicilioRetiro.provincia.toLowerCase() === 'cordoba') {
+        enviarMailPedidoDeEnvio(`<h1><strong>Se ha detectado un pedido de Envío cercano en tu zona</strong></h1>
+        <br>
+        <h3>Tipo de carga: <span><h4>${formData.tipoDeCarga}</h4></span></h3>
+        <h2>Datos de entrega:</h2><br>
+        <h3>Domicilio: <span><h4>${formData.domicilioEntrega.calle} N°${formData.domicilioEntrega.numero}</h4></span></h3>
+        <h3>Localidad: <span><h4>${formData.domicilioEntrega.localidad}</h4></span></h3>
+        <h3>Provincia: <span><h4>${formData.domicilioEntrega.provincia}</h4></span></h3>
+        <h3>Fecha de entrega: <span><h4>${formData.fechaEntrega}</h4></span></h3>
+        <h2>Datos de retiro:</h2><br>
+        <h3>Domicilio: <span><h4>${formData.domicilioRetiro.calle} N°${formData.domicilioRetiro.numero}</h4></span></h3>
+        <h3>Localidad: <span><h4>${formData.domicilioRetiro.localidad}</h4></span></h3>
+        <h3>Provincia: <span><h4>${formData.domicilioRetiro.provincia}</h4></span></h3>
+        <h3>Fecha de retiro: <span><h4>${formData.fechaRetiro}</h4></span></h3>
+        `)
+        console.log('Mail enviado correctamente...')
+      }
       // Enviar datos a la API
       setOpenBackdrop(true)
       // Simular un tiempo de espera
