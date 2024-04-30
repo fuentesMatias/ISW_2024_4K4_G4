@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { lightBlue } from '@mui/material/colors'
 import Alert from '@mui/material/Alert'
 
-const LIGHT_BLUE_COLOR = lightBlue[500300]
+const lightBlueColor = lightBlue[500300]
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -57,7 +57,7 @@ export default function InputFileUpload ({ setSelectedFile2 }) {
         component="label"
         variant="contained"
         startIcon={<CloudUploadIcon />}
-        color={LIGHT_BLUE_COLOR}
+        color={lightBlueColor}
         sx={{
           '&:hover': {
             backgroundColor: '#4D9FE7'

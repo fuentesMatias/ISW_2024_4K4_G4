@@ -49,7 +49,10 @@ export default function AlertaError () {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { handleClose; navigate('/home') }} color="error">
+          <Button onClick={() => {
+            handleClose()
+            navigate('/home')
+          }} color="error">
             Cerrar
           </Button>
         </DialogActions>

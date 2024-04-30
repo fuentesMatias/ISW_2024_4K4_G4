@@ -16,7 +16,7 @@ import greenOkImage from '../assets/green-oksvg.svg'
 
 console.log(transportistas[0])
 
-const INITIAL_FORM_STATE = {
+const initialFormState = {
   tipoDeCarga: '',
   domicilioRetiro: {
     calle: '',
@@ -39,7 +39,7 @@ const INITIAL_FORM_STATE = {
   foto: 'string'
 }
 
-const INITIAL_ERRORS_STATE = {
+const initialErrorsState = {
   tipoDeCarga: '',
   calleRetiro: '',
   numeroRetiro: '',
@@ -55,11 +55,11 @@ const INITIAL_ERRORS_STATE = {
   fechaEntrega: ''
 }
 
-const LIGHT_BLUE_COLOR = lightBlue[500300]
+const lightBlueColor = lightBlue[500300]
 const FormularioPedidoEnvio = () => {
   const navigate = useNavigate()
   // Estados para almacenar los datos del formulario
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE)
+  const [formData, setFormData] = useState(initialFormState)
   const [selectedFile, setSelectedFile] = React.useState(null)
   const [openConfirm, setOpenConfirm] = React.useState(false)
   const [openSuccess, setOpenSuccess] = React.useState(false)
@@ -67,7 +67,7 @@ const FormularioPedidoEnvio = () => {
   const [accordionEntrega, setAccordionEntrega] = React.useState(false)
 
   // Estado para almacenar los errores de validación
-  const [formErrors, setFormErrors] = useState(INITIAL_ERRORS_STATE)
+  const [formErrors, setFormErrors] = useState(initialErrorsState)
 
   // Estado para el backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false)
@@ -231,7 +231,7 @@ const FormularioPedidoEnvio = () => {
       setOpenBackdrop(false)
       setOpenSuccess(true)
       // limpio los campos
-      setFormData(INITIAL_FORM_STATE)
+      setFormData(initialFormState)
       setSelectedFile(null)
       setOpenError(false)
       setFormErrors({})
@@ -275,7 +275,7 @@ const FormularioPedidoEnvio = () => {
                 fullWidth
                 value={formData.tipoDeCarga}
                 onChange={e => handleInputChange(e)}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
                 error={!!formErrors.tipoDeCarga}
               >
                 <MenuItem style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={'documentacion'}>Documentación</MenuItem>
@@ -305,7 +305,7 @@ const FormularioPedidoEnvio = () => {
                       name="domicilioRetiro.calle"
                       value={formData.domicilioRetiro.calle}
                       onChange={handleInputChange}
-                      color={LIGHT_BLUE_COLOR}
+                      color={lightBlueColor}
                       error={!!formErrors.calleRetiro}
                       helperText={formErrors.calleRetiro}
                       />
@@ -320,7 +320,7 @@ const FormularioPedidoEnvio = () => {
                       error={!!formErrors.numeroRetiro}
                       helperText={formErrors.numeroRetiro}
                       onChange={handleInputChange}
-                      color={LIGHT_BLUE_COLOR}
+                      color={lightBlueColor}
                       type='number'
                     />
                   </Grid>
@@ -332,7 +332,7 @@ const FormularioPedidoEnvio = () => {
                       name="domicilioRetiro.localidad"
                       value={formData.domicilioRetiro.localidad}
                       onChange={handleInputChange}
-                      color={LIGHT_BLUE_COLOR}
+                      color={lightBlueColor}
                       error={!!formErrors.localidadRetiro}
                       helperText={formErrors.localidadRetiro}
                       />
@@ -345,7 +345,7 @@ const FormularioPedidoEnvio = () => {
                       name="domicilioRetiro.provincia"
                       value={formData.domicilioRetiro.provincia}
                       onChange={handleInputChange}
-                      color={LIGHT_BLUE_COLOR}
+                      color={lightBlueColor}
                       error={!!formErrors.provinciaRetiro}
                       helperText={formErrors.provinciaRetiro}
                       />
@@ -359,7 +359,7 @@ const FormularioPedidoEnvio = () => {
                       name="domicilioRetiro.referencia"
                       value={formData.domicilioRetiro.referencia}
                       onChange={handleInputChange}
-                      color={LIGHT_BLUE_COLOR}
+                      color={lightBlueColor}
                     />
                   </Grid>
                   <Grid item xs={12} marginY='0.75em'>
@@ -399,7 +399,7 @@ const FormularioPedidoEnvio = () => {
                 onChange={handleInputChange}
                 error={!!formErrors.calleEntrega}
                 helperText={formErrors.calleEntrega}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
               />
             </Grid>
             <Grid item xs={12}>
@@ -412,7 +412,7 @@ const FormularioPedidoEnvio = () => {
                 onChange={handleInputChange}
                 error={!!formErrors.numeroEntrega}
                 helperText={formErrors.numeroEntrega}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
                 type='number'
               />
             </Grid>
@@ -426,7 +426,7 @@ const FormularioPedidoEnvio = () => {
                 error={!!formErrors.localidadEntrega}
                 helperText={formErrors.localidadEntrega}
                 onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
               />
             </Grid>
             <Grid item xs={12}>
@@ -439,7 +439,7 @@ const FormularioPedidoEnvio = () => {
                 error={!!formErrors.provinciaEntrega}
                 helperText={formErrors.provinciaEntrega}
                 onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
               />
             </Grid>
             <Grid item xs={12} marginY='0.85em'>
@@ -453,7 +453,7 @@ const FormularioPedidoEnvio = () => {
                 error={!!formErrors.referenciaEntrega}
                 helperText={formErrors.referenciaEntrega}
                 onChange={handleInputChange}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
                 />
             </Grid>
             <Grid item xs={12} marginY='0.75em'>
@@ -467,7 +467,7 @@ const FormularioPedidoEnvio = () => {
                 onChange={handleInputChange}
                 error={!!formErrors.fechaEntrega}
                 helperText={formErrors.fechaEntrega}
-                color={LIGHT_BLUE_COLOR}
+                color={lightBlueColor}
                 />
             </Grid>
             </AccordionDetails>
