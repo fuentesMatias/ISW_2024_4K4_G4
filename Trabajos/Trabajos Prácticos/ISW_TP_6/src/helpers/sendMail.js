@@ -20,12 +20,12 @@ const configureEmail = () => {
   })
 }
 
-const enviarMailPedidoDeEnvio = (contenidoHtml) => {
+const enviarMailPedidoDeEnvio = (contenidoHtml, templateId = null) => {
   const templateParams = {
     html_message: contenidoHtml
   }
   configureEmail()
-  emailjs.send('service_tango_app_g4', 'template_09d6npv', templateParams).then(
+  emailjs.send('service_tango_app_g4', templateId || 'template_09d6npv', templateParams).then(
     (response) => {
       console.log('Mail enviado!', response.status, response.text)
     },

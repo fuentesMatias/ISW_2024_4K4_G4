@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import enviarMailPedidoDeEnvio from '../helpers/sendMail'
 import transportistas from '../db/transportistas.json'
 import greenOkImage from '../assets/green-oksvg.svg'
+import provincias from '../db/provincias.json'
 
 console.log(transportistas[0])
 
@@ -219,7 +220,7 @@ const FormularioPedidoEnvio = () => {
         <h3>Localidad: <span><h4>${formData.domicilioRetiro.localidad}</h4></span></h3>
         <h3>Provincia: <span><h4>${formData.domicilioRetiro.provincia}</h4></span></h3>
         <h3>Fecha de retiro: <span><h4>${formData.fechaRetiro}</h4></span></h3>
-        `)
+        `, transportistaEncontrado.localidad.toLowerCase() === 'cordoba' ? null : 'template_catamarca')
         console.log('Mail enviado correctamente...')
       }
 
@@ -324,31 +325,49 @@ const FormularioPedidoEnvio = () => {
                       type='number'
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Localidad"
-                      variant="standard"
-                      fullWidth
-                      name="domicilioRetiro.localidad"
-                      value={formData.domicilioRetiro.localidad}
-                      onChange={handleInputChange}
-                      color={lightBlueColor}
-                      error={!!formErrors.localidadRetiro}
-                      helperText={formErrors.localidadRetiro}
-                      />
+                  <Grid item xs={12} textAlign={'left'} marginY={'1em'}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Provincia</InputLabel>
+                      <Select
+                          style={ { fontFamily: 'Rubik, sans-serif' } }
+                          label="Provincia"
+                          variant='outlined'
+                          name='domicilioRetiro.provincia'
+                          fullWidth
+                          value={formData.domicilioRetiro.provincia}
+                          onChange={e => handleInputChange(e)}
+                          color={lightBlueColor}
+                          error={!!formErrors.provinciaRetiro}
+                        >
+                          {provincias.map((prov) => (
+                          <MenuItem key={prov.id} style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={`${prov.nombre}`}>{prov.nombre}</MenuItem>))}
+                      </Select>
+                    <FormHelperText error={!!formErrors.provinciaRetiro}>{formErrors.provinciaRetiro}</FormHelperText>
+                    </FormControl>
                   </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Provincia"
-                      variant="standard"
-                      fullWidth
-                      name="domicilioRetiro.provincia"
-                      value={formData.domicilioRetiro.provincia}
-                      onChange={handleInputChange}
-                      color={lightBlueColor}
-                      error={!!formErrors.provinciaRetiro}
-                      helperText={formErrors.provinciaRetiro}
-                      />
+                  <Grid item xs={12} textAlign={'left'}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Localidad</InputLabel>
+                      <Select
+                          style={ { fontFamily: 'Rubik, sans-serif' } }
+                          label="Localidad"
+                          variant='outlined'
+                          name='domicilioRetiro.localidad'
+                          fullWidth
+                          value={formData.domicilioRetiro.localidad}
+                          onChange={e => handleInputChange(e)}
+                          color={lightBlueColor}
+                          error={!!formErrors.localidadRetiro}
+                          helperText={formErrors.localidadRetiro}
+                          disabled={formData.domicilioRetiro.provincia === ''}
+                        >
+                          {provincias.find(prov => prov.nombre === formData.domicilioRetiro.provincia)?.localidades.map((localidad) => (
+                        <MenuItem key={localidad.id} style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={`${localidad.nombre}`}>
+                          {localidad.nombre}
+                        </MenuItem>))}
+                      </Select>
+                    <FormHelperText error={!!formErrors.localidadRetiro}>{formErrors.localidadRetiro}</FormHelperText>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} marginY='0.85em'>
                     <TextField
@@ -416,32 +435,50 @@ const FormularioPedidoEnvio = () => {
                 type='number'
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Localidad"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.localidad"
-                value={formData.domicilioEntrega.localidad}
-                error={!!formErrors.localidadEntrega}
-                helperText={formErrors.localidadEntrega}
-                onChange={handleInputChange}
-                color={lightBlueColor}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Provincia"
-                variant="standard"
-                fullWidth
-                name="domicilioEntrega.provincia"
-                value={formData.domicilioEntrega.provincia}
-                error={!!formErrors.provinciaEntrega}
-                helperText={formErrors.provinciaEntrega}
-                onChange={handleInputChange}
-                color={lightBlueColor}
-              />
-            </Grid>
+                  <Grid item xs={12} textAlign={'left'} marginY={'1em'}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Provincia</InputLabel>
+                      <Select
+                          style={ { fontFamily: 'Rubik, sans-serif' } }
+                          label="Provincia"
+                          variant='outlined'
+                          name='domicilioEntrega.provincia'
+                          fullWidth
+                          value={formData.domicilioEntrega.provincia}
+                          onChange={e => handleInputChange(e)}
+                          color={lightBlueColor}
+                          error={!!formErrors.provinciaEntrega}
+                        >
+                          {provincias.map((prov) => (
+                          <MenuItem key={prov.id} style={ { fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' } } value={`${prov.nombre}`}>{prov.nombre}</MenuItem>))}
+                      </Select>
+                      <FormHelperText error={!!formErrors.provinciaEntrega}>{formErrors.provinciaEntrega}</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} textAlign={'left'}>
+                    <FormControl variant="outlined" fullWidth>
+                      <InputLabel>Localidad</InputLabel>
+                      <Select
+                          style={ { fontFamily: 'Rubik, sans-serif' } }
+                          label="Localidad"
+                          variant='outlined'
+                          name='domicilioEntrega.localidad'
+                          fullWidth
+                          value={formData.domicilioEntrega.localidad}
+                          onChange={e => handleInputChange(e)}
+                          color={lightBlueColor}
+                          error={!!formErrors.localidadEntrega}
+                          helperText={formErrors.localidadEntrega}
+                          disabled={formData.domicilioEntrega.provincia === ''}
+                        >
+                          {provincias.find(prov => prov.nombre === formData.domicilioEntrega.provincia)?.localidades.map((localidad) => (
+                        <MenuItem key={localidad.id} style={{ fontFamily: 'Rubik, sans-serif', fontWeight: 'lighter' }} value={`${localidad.nombre}`}>
+                          {localidad.nombre}
+                        </MenuItem>))}
+                      </Select>
+                    <FormHelperText error={!!formErrors.localidadEntrega}>{formErrors.localidadEntrega}</FormHelperText>
+                    </FormControl>
+                  </Grid>
             <Grid item xs={12} marginY='0.85em'>
               <TextField
                 label="Referencia (opcional)"
