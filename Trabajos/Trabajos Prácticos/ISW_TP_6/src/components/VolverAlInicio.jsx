@@ -17,7 +17,8 @@ const VolverAlInicio = () => {
         background: 'linear-gradient(336deg, rgba(106,188,249,1) 5%, rgba(117,191,249,1) 52%, rgba(135,230,255,1) 94%)',
         fontFamily: 'Arial',
         fontWeight: 'bold',
-        marginTop: '20px' // Ajusta el margen superior según sea necesario
+        marginTop: '5%',
+        marginBottom: '5%'
       }}
     >
       Volver al Inicio

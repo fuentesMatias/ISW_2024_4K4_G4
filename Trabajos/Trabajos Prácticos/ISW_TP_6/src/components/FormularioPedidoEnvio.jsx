@@ -12,6 +12,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import enviarMailPedidoDeEnvio from '../helpers/sendMail'
 import transportistas from '../db/transportistas.json'
+import greenOkImage from '../assets/green-oksvg.svg'
 
 console.log(transportistas[0])
 
@@ -199,7 +200,12 @@ const FormularioPedidoEnvio = () => {
         foto: selectedFile || null
       }
       console.log(formattedFormData)
-      if (formattedFormData.domicilioRetiro.localidad.toLowerCase() === 'cordoba' && formattedFormData.domicilioRetiro.provincia.toLowerCase() === 'cordoba') {
+
+      const transportistaEncontrado = transportistas.find((transportista) =>
+        formattedFormData.domicilioRetiro.localidad.toLowerCase() === transportista.localidad.toLowerCase() && formattedFormData.domicilioRetiro.provincia.toLowerCase() === transportista.provincia.toLowerCase()
+      )
+
+      if (transportistaEncontrado) {
         enviarMailPedidoDeEnvio(`<h1><strong>Se ha detectado un pedido de Envío cercano en tu zona</strong></h1>
         <br>
         <h3>Tipo de carga: <span><h4>${formData.tipoDeCarga}</h4></span></h3>
@@ -216,6 +222,7 @@ const FormularioPedidoEnvio = () => {
         `)
         console.log('Mail enviado correctamente...')
       }
+
       // Enviar datos a la API
       setOpenBackdrop(true)
       // Simular un tiempo de espera
@@ -239,7 +246,6 @@ const FormularioPedidoEnvio = () => {
 
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: '45px' }}>
-      <VolverAlInicio />
       <Paper
         elevation={3}
         sx={{
@@ -526,10 +532,11 @@ const FormularioPedidoEnvio = () => {
 
       <Dialog open={openSuccess} onClose={() => setOpenSuccess(false)}>
         <DialogTitle id="success-dialog">Registro Exitoso</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <DialogContentText id="success-dialog-description">
             El Pedido de Envio se registró exitosamente.
           </DialogContentText>
+          <img src={greenOkImage} style={{ maxWidth: '3em', height: 'auto', marginRight: '1.5em', color: 'green' }} />
         </DialogContent>
         <DialogActions>
           <Button
@@ -544,6 +551,7 @@ const FormularioPedidoEnvio = () => {
         </DialogActions>
       </Dialog>
       {openError && <AlertaError />}
+      <VolverAlInicio />
     </Container>
   )
 }
