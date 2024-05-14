@@ -203,8 +203,10 @@ const FormularioPedidoEnvio = () => {
       console.log(formattedFormData)
 
       const transportistaEncontrado = transportistas.find((transportista) =>
-        formattedFormData.domicilioRetiro.localidad.toLowerCase() === transportista.localidad.toLowerCase() && formattedFormData.domicilioRetiro.provincia.toLowerCase() === transportista.provincia.toLowerCase()
+        (formattedFormData.domicilioRetiro.localidad.toLowerCase() === transportista.localidad.toLowerCase() && formattedFormData.domicilioRetiro.provincia.toLowerCase() === transportista.provincia.toLowerCase())
       )
+      const transportistaEncontrado2 = transportistas.find((transportista) =>
+        formattedFormData.domicilioEntrega.localidad.toLowerCase() === transportista.localidad.toLowerCase() && formattedFormData.domicilioEntrega.provincia.toLowerCase() === transportista.provincia.toLowerCase())
 
       if (transportistaEncontrado) {
         enviarMailPedidoDeEnvio(`<h1><strong>Se ha detectado un pedido de Envío cercano en tu zona</strong></h1>
@@ -221,6 +223,23 @@ const FormularioPedidoEnvio = () => {
         <h3>Provincia: <span><h4>${formData.domicilioRetiro.provincia}</h4></span></h3>
         <h3>Fecha de retiro: <span><h4>${formData.fechaRetiro}</h4></span></h3>
         `, transportistaEncontrado.localidad.toLowerCase() === 'cordoba' ? null : 'template_catamarca')
+        console.log('Mail enviado correctamente...')
+      }
+      if (transportistaEncontrado2) {
+        enviarMailPedidoDeEnvio(`<h1><strong>Se ha detectado un pedido de Envío cercano en tu zona</strong></h1>
+        <br>
+        <h3>Tipo de carga: <span><h4>${formData.tipoDeCarga}</h4></span></h3>
+        <h2>Datos de entrega:</h2><br>
+        <h3>Domicilio: <span><h4>${formData.domicilioEntrega.calle} N°${formData.domicilioEntrega.numero}</h4></span></h3>
+        <h3>Localidad: <span><h4>${formData.domicilioEntrega.localidad}</h4></span></h3>
+        <h3>Provincia: <span><h4>${formData.domicilioEntrega.provincia}</h4></span></h3>
+        <h3>Fecha de entrega: <span><h4>${formData.fechaEntrega}</h4></span></h3>
+        <h2>Datos de retiro:</h2><br>
+        <h3>Domicilio: <span><h4>${formData.domicilioRetiro.calle} N°${formData.domicilioRetiro.numero}</h4></span></h3>
+        <h3>Localidad: <span><h4>${formData.domicilioRetiro.localidad}</h4></span></h3>
+        <h3>Provincia: <span><h4>${formData.domicilioRetiro.provincia}</h4></span></h3>
+        <h3>Fecha de retiro: <span><h4>${formData.fechaRetiro}</h4></span></h3>
+        `, transportistaEncontrado2.localidad.toLowerCase() === 'cordoba' ? null : 'template_catamarca')
         console.log('Mail enviado correctamente...')
       }
 
