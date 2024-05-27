@@ -32,8 +32,6 @@ ISW_2024_4K4_G4
 │   │   ├── ISW_NT_<NúmeroSemana>_<Nombre_Apellido>.pdf
 │   ├── Presentaciones
 │   │   ├── ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf
-│   ├── Resumenes
-│   │   ├── ISW_RES_U<NúmeroDeUnidad>.pdf
 ├── Programa
 │   ├── ISW_ProgramaAsignatura_2024.pdf  
 ├── Templates
