@@ -12,7 +12,7 @@ Este repositorio será usado por los integrantes del grupo a lo largo del cursad
 - [Fuentes, Matías - 90463](https://github.com/fuentesMatias)
 - [Gregorat, Franco Lautaro - 89882](https://github.com/lautarogregorat) 
 - [Ibarguren, Carlos - 93911](https://github.com/carlosibarguren)
-- Márquez, Juan Francisco - 89074
+- [Márquez, Juan Francisco - 89074](https://github.com/juanfmarquez)
 - [Mizzau Anadón, Federico Agustín - 89542 ](https://github.com/FedericoMizzau) 
 - [Silvestre, Exequiel - 81811](https://github.com/Exesilvestre) 
 - [Toledo, Antonio Ramon - 81864](https://github.com/toledoantonio)
