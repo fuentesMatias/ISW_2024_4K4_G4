@@ -32,7 +32,7 @@ ISW_2024_4K4_G4
 │   │   ├── ISW_NT_<NúmeroSemana>_<Nombre_Apellido>.pdf
 │   ├── Presentaciones
 |   |   ├── Resúmenes
-|   |   |   ├── ISW_RES_U<Número de unidad>.pdf
+|   |   |   ├── ISW_RES_U<NúmeroDeUnidad>.pdf
 │   │   ├── ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf
 ├── Programa
 │   ├── ISW_ProgramaAsignatura_2024.pdf  
@@ -40,9 +40,9 @@ ISW_2024_4K4_G4
 │   ├── ISW_Template_<NombreDelTema>.[docx|xlsx]
 ├── Trabajos
 │   ├── Trabajos Conceptuales
-│   │   ├── ISW_TC_<NúmeroDeTc>.pdf
+│   │   ├── ISW_TC_<NúmeroDeTC>_<Título>.pdf
 │   ├── Trabajos Prácticos
-│   │   ├── ISW_TP_<NúmeroDeTp>.[pdf|xslx]
+│   │   ├── ISW_TP_<NúmeroDeTP>_<Título>.[pdf|xslx]
 
 
 ```
@@ -54,13 +54,13 @@ ISW_2024_4K4_G4
 | ítem                | Regla de Nombrado                       | Ubicación |
 | ------------------- | ---------------------------------------- | ------------- |
 | Programa de Asignatura | ISW_ProgramaAsignatura_2024.pdf          | ISW_2024_4K4_G4\Programa\    |
-| Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.[pdf/xslx]                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
-| Trabajos Conceptuales | ISW_TC_<Número de TC>_<Titulo>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
-| Templates           | ISW_Template_<Nombre del tema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
-| Presentaciones      | ISW_PPT_U<Número de unidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
-| Resúmenes           | ISW_RES_U<Número de unidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resúmenes\    |
-| Bibliografía        | ISW_BB_<Nombre del documento>.pdf       | ISW_2024_4K4_G4\Material Estudio\Bibliografía\    |
-| Notas de Clase      | ISW_NT_<Número Semana>_<Nombre_Apellido>.pdf | ISW_2024_4K4_G4\Material Estudio\Notas de Clase\ |
+| Trabajos Prácticos | ISW_TP_<NúmeroDeTP>_<Título>.[pdf/xslx]                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
+| Trabajos Conceptuales | ISW_TC_<NúmeroDeTC>_<Título>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
+| Templates           | ISW_Template_<NombreDelTema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
+| Presentaciones      | ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
+| Resúmenes           | ISW_RES_U<NúmeroDeUnidad>.pdf         | ISW_2024_4K4_G4\Material Estudio\Resúmenes\    |
+| Bibliografía        | ISW_BB_<NombreDelDocumento>.pdf       | ISW_2024_4K4_G4\Material Estudio\Bibliografía\    |
+| Notas de Clase      | ISW_NT_<NúmeroSemana>_<Nombre_Apellido>.pdf | ISW_2024_4K4_G4\Material Estudio\Notas de Clase\ |
 
 
 
@@ -85,11 +85,11 @@ Dentro de nuestro repositorio el criterio para establecer una Línea Base sin co
 | **NT** | Notas de Clase | 
 | **SCM** | Gestión de Configuración del Software | 
 | **U** | Unidad | 
-| **<Titulo>** | Título del Trabajo Conceptual o Práctico | 
-| **<Nombre del tema>** | Nombre asociado al tema al que corresponde el template. | 
-| **<Número de unidad>** | Número de la Unidad correspondiente al Tema del documento o archivo, siguiendo los número establecidos en el programa de la asignatura. |
+| **<Título>** | Título del Trabajo Conceptual o Práctico | 
+| **<NombreDelTema>** | Nombre asociado al tema al que corresponde el template. | 
+| **<NúmeroDeUnidad>** | Número de la Unidad correspondiente al Tema del documento o archivo, siguiendo los número establecidos en el programa de la asignatura. |
 | **<Tema>** | Título del tema al que corresponde una presentación o diapositiva. | 
-| **<Nombre del documento>** | Título del archivo correspondiente a un libro, paper, o documento de Bibliografía. | 
-| **<Número Semana>** | Número de la semana a la que corresponde un Ítem de Configuración de notas de clase, según el cronograma de la materia en el año 2024. |
+| **<NombreDelDocumento>** | Título del archivo correspondiente a un libro, paper, o documento de Bibliografía. | 
+| **<NúmeroSemana>** | Número de la semana a la que corresponde un Ítem de Configuración de notas de clase, según el cronograma de la materia en el año 2024. |
 | **<Nombre_Apellido>** | Nombre y apellido del autor de un ítem de Configuración de notas de clase. |
 
