@@ -31,6 +31,8 @@ ISW_2024_4K4_G4
 │   ├── Notas de Clase
 │   │   ├── ISW_NT_<NúmeroSemana>_<Nombre_Apellido>.pdf
 │   ├── Presentaciones
+|   |   ├── Resúmenes
+|   |   |   ├── ISW_RES_U<Número de unidad>.pdf
 │   │   ├── ISW_PPT_U<NúmeroDeUnidad>_<Tema>.pdf
 ├── Programa
 │   ├── ISW_ProgramaAsignatura_2024.pdf  
@@ -40,7 +42,7 @@ ISW_2024_4K4_G4
 │   ├── Trabajos Conceptuales
 │   │   ├── ISW_TC_<NúmeroDeTc>.pdf
 │   ├── Trabajos Prácticos
-│   │   ├── ISW_TP_<NúmeroDeTp>.pdf
+│   │   ├── ISW_TP_<NúmeroDeTp>.[pdf|xslx]
 
 
 ```
@@ -52,7 +54,7 @@ ISW_2024_4K4_G4
 | ítem                | Regla de Nombrado                       | Ubicación |
 | ------------------- | ---------------------------------------- | ------------- |
 | Programa de Asignatura | ISW_ProgramaAsignatura_2024.pdf          | ISW_2024_4K4_G4\Programa\    |
-| Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.pdf                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
+| Trabajos Prácticos | ISW_TP_<Número de TP>_<Titulo>.[pdf/xslx]                | ISW_2024_4K4_G4\Trabajos\Trabajos Prácticos\    |
 | Trabajos Conceptuales | ISW_TC_<Número de TC>_<Titulo>.pdf              | ISW_2024_4K4_G4\Trabajos\Trabajos Conceptuales\    |
 | Templates           | ISW_Template_<Nombre del tema>.[docx/xslx] | ISW_2024_4K4_G4\Templates\    |
 | Presentaciones      | ISW_PPT_U<Número de unidad>_<Tema>.pdf | ISW_2024_4K4_G4\Material Estudio\Presentaciones\    |
